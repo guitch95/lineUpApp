@@ -1,6 +1,6 @@
 import SwiftUI
 
-@main struct MyApp: App {
+@main struct LineUpApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
