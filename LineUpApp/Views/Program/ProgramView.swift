@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProgrammeView: View {
+struct ProgramView: View {
     var body: some View {
         ZStack {
             Color.bg
@@ -21,5 +21,5 @@ struct ProgrammeView: View {
 }
 
 #Preview {
-    ProgrammeView()
+    ProgramView()
 }
