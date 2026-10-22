@@ -26,17 +26,14 @@ extension Workshop {
         let expression = Category(
             id: UUID(),
             name: "Atelier Expression",
-            workshops: []
         )
         let technique = Category(
             id: UUID(),
             name: "Atelier Technique",
-            workshops: []
         )
         let improvisation = Category(
             id: UUID(),
             name: "Atelier Jeu",
-            workshops: []
         )
 
         return [
@@ -48,7 +45,9 @@ extension Workshop {
                 capacityMax: 20,
                 subscribersNb: 15,
                 description: "",
-                category: expression
+                category: expression,
+                location: "Salle Molière",
+                speaker: "Camille Durand"
             ),
             Workshop(
                 id: UUID(),
@@ -58,7 +57,9 @@ extension Workshop {
                 capacityMax: 15,
                 subscribersNb: 15,
                 description: "",
-                category: technique
+                category: technique,
+                location: "Salle Jouvet",
+                speaker: "Julien Martin"
             ),
             Workshop(
                 id: UUID(),
@@ -68,7 +69,9 @@ extension Workshop {
                 capacityMax: 25,
                 subscribersNb: 20,
                 description: "",
-                category: improvisation
+                category: improvisation,
+                location: "Salle Vilar",
+                speaker: "Sophie Bernard"
             ),
         ]
     }()
