@@ -17,7 +17,7 @@ struct Workshop: Identifiable {
     let subscribersNb: Int
     let description: String
     let category: Category
-    let location: String?
-    let speaker: String?
+    let location: String
+    let speaker: String
 
 }
