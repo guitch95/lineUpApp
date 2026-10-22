@@ -9,12 +9,15 @@ import SwiftUI
 
 struct EventRow: View {
     let workshop: Workshop
-    let authorName: String
-    let place: String
     
     private func formatTime(_ date: Date) -> String {
         date.formatted(.dateTime.hour().minute().locale(Locale(identifier: "fr_FR")))
     }
+    
+    func makeDate(hour: Int, minute: Int) -> Date {
+            let calendar = Calendar.current
+            return calendar.date(bySettingHour: hour, minute: minute, second: 0, of: Date()) ?? Date()
+        }
     
     var body: some View {
         HStack {
@@ -30,14 +33,14 @@ struct EventRow: View {
                     CategoryTag(category: workshop.category.name)
                 }
                 
-                Text(authorName)
+                Text(workshop.speaker ?? "")
                     .font(.system(size: 12))
                     .fontWeight(.regular)
                     .foregroundStyle(.fontGrayBtn)
 
                 HStack(spacing: 0) {
                     Text("\(formatTime(workshop.startTime)) – \(formatTime(workshop.endTime))")
-                    Text(" · \(place)")
+                    Text(" · \(String(describing: workshop.location))")
                     Spacer()
                     AvailabilityBadge(
                         subscribersNb: workshop.subscribersNb,
@@ -52,19 +55,20 @@ struct EventRow: View {
     }
 }
 #Preview {
-    EventRow(
-        workshop: Workshop(
-            id: UUID(),
-            name: "Maîtrise de la voix",
-            startTime: Workshop.makeDate(hour: 19, minute: 0),
-            endTime: Workshop.makeDate(hour: 20, minute: 30),
-            capacityMax: 10,
-            subscribersNb: 8,
-            description: "Atelier vocal complet",
-            category: Category(id: UUID(), name: "VOIX")
-        ),
-        authorName: "Collectif La Voix Haute",
-        place: "Cour des Célestins"
-    )
-    .padding()
+//    EventRow(
+//        workshop: Workshop(
+//            id: UUID(),
+//            name: "Maîtrise de la voix",
+//            startTime: Workshop.makeDate(hour: 19, minute: 0),
+//            endTime: Workshop.makeDate(hour: 20, minute: 30),
+//            capacityMax: 10,
+//            subscribersNb: 8,
+//            description: "Atelier vocal complet",
+//            category: Category(id: UUID(), name: "VOIX"),
+//            location: "Cour des Célestins",
+//            speaker: "Collectif La Voix Haute"
+//        ),
+//        
+//    )
+//    .padding()
 }

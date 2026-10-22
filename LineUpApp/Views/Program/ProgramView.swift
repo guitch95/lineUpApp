@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProgramView: View {
-    let mocks = Workshop.mockList
+    let mocks = Workshop.samples
     
     var body: some View {
         NavigationStack {
@@ -17,14 +17,14 @@ struct ProgramView: View {
                     ScheduleHeaderView()
                     DatePillPicker()
                     
-                    ForEach(mocks, id: \.workshop.id) { mock in
-                        EventRow(
-                            workshop: mock.workshop,
-                            authorName: mock.authorName,
-                            place: mock.place
-                        )
-                        Divider()
-                    }
+//                    ForEach(mocks, id: \.workshop.id) { mock in
+//                        EventRow(
+//                            workshop: mock.workshop,
+//                            authorName: mock.authorName,
+//                            place: mock.place
+//                        )
+//                        Divider()
+//                    }
                 }
                 .padding()
             }
