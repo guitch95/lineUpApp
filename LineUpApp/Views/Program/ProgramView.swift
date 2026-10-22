@@ -17,14 +17,10 @@ struct ProgramView: View {
                     ScheduleHeaderView()
                     DatePillPicker()
                     
-//                    ForEach(mocks, id: \.workshop.id) { mock in
-//                        EventRow(
-//                            workshop: mock.workshop,
-//                            authorName: mock.authorName,
-//                            place: mock.place
-//                        )
-//                        Divider()
-//                    }
+                    ForEach(mocks) { mock in
+                        EventRow(workshop: mock)
+                        Divider()
+                    }
                 }
                 .padding()
             }

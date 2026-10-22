@@ -46,8 +46,8 @@ extension Workshop {
                 subscribersNb: 15,
                 description: "",
                 category: expression,
-                location: "",
-                speaker: ""
+                location: "Salle Molière",
+                speaker: "Camille Durand"
             ),
             Workshop(
                 id: UUID(),
@@ -58,8 +58,8 @@ extension Workshop {
                 subscribersNb: 15,
                 description: "",
                 category: technique,
-                location: "",
-                speaker: ""
+                location: "Salle Jouvet",
+                speaker: "Julien Martin"
             ),
             Workshop(
                 id: UUID(),
@@ -70,8 +70,8 @@ extension Workshop {
                 subscribersNb: 20,
                 description: "",
                 category: improvisation,
-                location: "",
-                speaker: ""
+                location: "Salle Vilar",
+                speaker: "Sophie Bernard"
             ),
         ]
     }()

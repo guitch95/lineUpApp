@@ -13,11 +13,11 @@ struct EventRow: View {
     private func formatTime(_ date: Date) -> String {
         date.formatted(.dateTime.hour().minute().locale(Locale(identifier: "fr_FR")))
     }
-    
-    func makeDate(hour: Int, minute: Int) -> Date {
-            let calendar = Calendar.current
-            return calendar.date(bySettingHour: hour, minute: minute, second: 0, of: Date()) ?? Date()
-        }
+//    
+//    func makeDate(hour: Int, minute: Int) -> Date {
+//            let calendar = Calendar.current
+//            return calendar.date(bySettingHour: hour, minute: minute, second: 0, of: Date()) ?? Date()
+//        }
     
     var body: some View {
         HStack {
@@ -54,13 +54,14 @@ struct EventRow: View {
         }
     }
 }
-#Preview {
+
+//#Preview {
 //    EventRow(
 //        workshop: Workshop(
 //            id: UUID(),
 //            name: "Maîtrise de la voix",
-//            startTime: Workshop.makeDate(hour: 19, minute: 0),
-//            endTime: Workshop.makeDate(hour: 20, minute: 30),
+//            startTime: Workshop.dates(day: 2, hour: 19, minute: 0),
+//            endTime: Workshop.date(day: 2, hour: 20, minute: 30),
 //            capacityMax: 10,
 //            subscribersNb: 8,
 //            description: "Atelier vocal complet",
@@ -71,4 +72,9 @@ struct EventRow: View {
 //        
 //    )
 //    .padding()
+//}
+
+#Preview {
+    EventRow(workshop: Workshop.samples[0])
+        .padding()
 }
