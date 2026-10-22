@@ -14,15 +14,4 @@ struct Reservation: Identifiable {
     let user: User
     let workshop: Workshop
 
-    init(
-        id: UUID,
-        status: ReservationStatus,
-        user: User,
-        workshop: Workshop
-    ) {
-        self.id = id
-        self.status = status
-        self.user = user
-        self.workshop = workshop
-    }
 }

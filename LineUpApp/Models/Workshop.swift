@@ -17,25 +17,7 @@ struct Workshop: Identifiable {
     let subscribersNb: Int
     let description: String
     let category: Category
-
-    init(
-        id: UUID,
-        name: String,
-        startTime: Date,
-        endTime: Date,
-        capacityMax: Int,
-        subscribersNb: Int,
-        description: String,
-        category: Category
-    ) {
-        self.id = id
-        self.name = name
-        self.startTime = startTime
-        self.endTime = endTime
-        self.capacityMax = capacityMax
-        self.subscribersNb = subscribersNb
-        self.description = description
-        self.category = category
-    }
+    let location: String?
+    let speaker: String?
 
 }
