@@ -1,9 +1,21 @@
 import SwiftUI
 
 @main struct LineUpApp: App {
+    @State private var authService = AuthService()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Group {
+                if authService.isLoggedIn {
+                    ContentView()
+                } else {
+                    MainView()
+                }
+            }
+            .environment(authService)
+            .task {
+                await authService.restoreSession()
+            }
         }
     }
 }
