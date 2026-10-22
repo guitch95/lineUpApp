@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Workshop: Identifiable {
+struct Workshop: Identifiable, Codable {
 
     let id: UUID
     let name: String

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Reservation: Identifiable {
+struct Reservation: Identifiable, Codable {
 
     let id: UUID
     let status: ReservationStatus
