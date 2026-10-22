@@ -8,31 +8,39 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State var email: String = ""
-    @State var password: String = ""
+
+    @Environment(AuthService.self) private var authService
+    @State private var email = ""
+    @State private var password = ""
+
     var body: some View {
-        VStack(spacing: 30){
-            VStack(alignment: .leading){
+        VStack(spacing: 30) {
+            VStack(alignment: .leading) {
                 Text("Adresse Email")
                     .font(.caption)
                     .foregroundStyle(.loginText)
                     .textCase(.uppercase)
                 TextField("Veuillez entrer votre email", text: $email)
                     .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                    .keyboardType(.emailAddress)
                     .padding()
                     .frame(height: 55)
                     .background(.white, in: .rect(cornerRadius: 12))
 
             }
-            VStack(alignment: .leading){
+            VStack(alignment: .leading) {
                 Text("Mot de passe")
                     .font(.caption)
                     .foregroundStyle(.loginText)
                     .textCase(.uppercase)
-                SecureField("Veuillez saisir votre mot de passe", text: $password)
-                    .padding()
-                    .frame(height: 55)
-                    .background(.white, in: .rect(cornerRadius: 12))
+                SecureField(
+                    "Veuillez saisir votre mot de passe",
+                    text: $password
+                )
+                .padding()
+                .frame(height: 55)
+                .background(.white, in: .rect(cornerRadius: 12))
             }
             Button {
                 print("Hello")
@@ -44,6 +52,11 @@ struct LoginView: View {
                     .background(.redBtn, in: .rect(cornerRadius: 12))
                     .foregroundStyle(.white)
             }
+            if let errorMessage = authService.errorMessage {
+                Text(errorMessage)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+            }
             Spacer()
         }
     }
@@ -51,4 +64,5 @@ struct LoginView: View {
 
 #Preview {
     LoginView()
+        .environment(AuthService())
 }

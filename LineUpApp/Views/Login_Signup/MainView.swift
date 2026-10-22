@@ -15,7 +15,7 @@ struct MainView: View {
             VStack(spacing: 30) {
                 VStack {
                     Image(.logoIcon)
-
+                        .padding(.top, 50)
                     VStack {
                         Text("LineUp")
                             .font(.title)
@@ -24,8 +24,8 @@ struct MainView: View {
                             .foregroundStyle(.loginText)
                     }
                 }
-                .padding(.top, 60)
                 .padding(.bottom, 30)
+
                 HStack {
                     Button {
                         selected = "connexion"
@@ -68,7 +68,6 @@ struct MainView: View {
         }
         .ignoresSafeArea()
     }
-
 }
 
 #Preview {

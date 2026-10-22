@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @State var email: String = ""
-    @State var password: String = ""
-    @State var name: String = ""
-    @State var selected = "connexion"
+
+    @Environment(AuthService.self) private var authService
+    @State private var email = ""
+    @State private var password = ""
+    @State private var name: String = ""
+
     var body: some View {
         VStack(spacing: 30) {
             VStack(alignment: .leading) {
@@ -19,12 +21,11 @@ struct SignUpView: View {
                     .font(.caption)
                     .foregroundStyle(.loginText)
                     .textCase(.uppercase)
-                TextField("Veuillez entrer votre nom", text: $email)
-                    .textInputAutocapitalization(.never)
+                TextField("Veuillez entrer votre nom", text: $name)
+                    .textInputAutocapitalization(.words)
                     .padding()
                     .frame(height: 55)
                     .background(.white, in: .rect(cornerRadius: 12))
-
             }
             VStack(alignment: .leading) {
                 Text("Adresse Email")
@@ -32,6 +33,8 @@ struct SignUpView: View {
                     .foregroundStyle(.loginText)
                     .textCase(.uppercase)
                 TextField("Veuillez entrer votre email", text: $email)
+                    .keyboardType(.emailAddress)
+                    .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .padding()
                     .frame(height: 55)
@@ -51,8 +54,15 @@ struct SignUpView: View {
                 .frame(height: 55)
                 .background(.white, in: .rect(cornerRadius: 12))
             }
+            if let errorMessage = authService.errorMessage {
+                Text(errorMessage)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+            }
             Button {
-                print("Hello")
+                Task {
+                    await authService.register(name: name, email: email, password: password)
+                }
             } label: {
                 Text("Créer mon compte")
                     .frame(maxWidth: .infinity)
@@ -69,8 +79,5 @@ struct SignUpView: View {
 
 #Preview {
     SignUpView()
-}
-
-#Preview {
-    MainView()
+        .environment(AuthService())
 }
