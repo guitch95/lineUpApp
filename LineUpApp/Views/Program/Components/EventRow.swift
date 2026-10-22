@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct EventRow: View {
-    let workshopName: String
+    let workshop: Workshop
     let authorName: String
-    let startTime: String
-    let endTime: String
     let place: String
+    
+    private func formatTime(_ date: Date) -> String {
+        date.formatted(.dateTime.hour().minute().locale(Locale(identifier: "fr_FR")))
+    }
     
     var body: some View {
         HStack {
@@ -21,11 +23,11 @@ struct EventRow: View {
                 .frame(width: 68, height: 68)
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text(workshopName)
+                    Text(workshop.name)
                         .font(.system(size: 14))
                         .fontWeight(.semibold)
                     Spacer()
-                    CategoryTag(category: "voix")
+                    CategoryTag(category: workshop.category.name)
                 }
                 
                 Text(authorName)
@@ -34,10 +36,13 @@ struct EventRow: View {
                     .foregroundStyle(.fontGrayBtn)
 
                 HStack(spacing: 0) {
-                    Text("\(startTime) - \(endTime)")
+                    Text("\(formatTime(workshop.startTime)) – \(formatTime(workshop.endTime))")
                     Text(" · \(place)")
                     Spacer()
-                    AvailabilityBadge(subscribersNb: 4, capacityMax: 5)
+                    AvailabilityBadge(
+                        subscribersNb: workshop.subscribersNb,
+                        capacityMax: workshop.capacityMax
+                    )
                 }
                 .font(.system(size: 11))
                 .fontWeight(.regular)
@@ -46,13 +51,19 @@ struct EventRow: View {
         }
     }
 }
-
 #Preview {
     EventRow(
-        workshopName: "Maitrise de la voix",
+        workshop: Workshop(
+            id: UUID(),
+            name: "Maîtrise de la voix",
+            startTime: Workshop.makeDate(hour: 19, minute: 0),
+            endTime: Workshop.makeDate(hour: 20, minute: 30),
+            capacityMax: 10,
+            subscribersNb: 8,
+            description: "Atelier vocal complet",
+            category: Category(id: UUID(), name: "VOIX")
+        ),
         authorName: "Collectif La Voix Haute",
-        startTime: "19h00",
-        endTime: "20h00",
         place: "Cour des Célestins"
     )
     .padding()

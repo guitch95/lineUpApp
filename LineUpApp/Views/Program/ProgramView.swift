@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct ProgramView: View {
-    let events = [
-        (name: "Maîtrise de la voix", author: "Collectif La Voix Haute", start: "19h00", end: "20h30", place: "Cour des Célestins"),
-        (name: "Improvisation Jazz", author: "Marcus Delacroix", start: "14h00", end: "16h00", place: "Scène Beckett"),
-        (name: "Lecture perchée", author: "Isabelle Moreau", start: "13h30", end: "15h30", place: "Studio Artaud")
-    ]
+    let mocks = Workshop.mockList
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -20,13 +17,11 @@ struct ProgramView: View {
                     ScheduleHeaderView()
                     DatePillPicker()
                     
-                    ForEach(events, id: \.name) { event in
+                    ForEach(mocks, id: \.workshop.id) { mock in
                         EventRow(
-                            workshopName: event.name,
-                            authorName: event.author,
-                            startTime: event.start,
-                            endTime: event.end,
-                            place: event.place
+                            workshop: mock.workshop,
+                            authorName: mock.authorName,
+                            place: mock.place
                         )
                         Divider()
                     }

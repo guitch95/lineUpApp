@@ -16,22 +16,4 @@ struct User: Identifiable {
     let role: UserRole
     let createdAt: Date?
     let reservations: [Reservation]
-
-    init(
-        id: UUID,
-        name: String,
-        email: String,
-        passwordHash: String,
-        role: UserRole = .festivalier,
-        createdAt: Date?,
-        reservations: [Reservation]
-    ) {
-        self.id = id
-        self.name = name
-        self.email = email
-        self.passwordHash = passwordHash
-        self.role = role
-        self.createdAt = createdAt
-        self.reservations = reservations
-    }
 }
