@@ -11,19 +11,15 @@ struct MainView: View {
     @Environment(AuthService.self) private var authService
     @State private var selected = "connexion"
     var body: some View {
-        ZStack {
-            Color.bg
+        VStack {
             VStack(spacing: 30) {
                 VStack {
                     Image(.logoIcon)
-                        .padding(.top, 50)
-                    VStack {
-                        Text("LineUp")
-                            .font(.title)
-                            .bold()
-                        Text("Festival · Naples · 6–8 Novembre 2026")
-                            .foregroundStyle(.loginText)
-                    }
+                    Text("LineUp")
+                        .font(.title)
+                        .bold()
+                    Text("Festival · Naples · 6–8 Novembre 2026")
+                        .foregroundStyle(.loginText)
                 }
                 .padding(.bottom, 30)
 
@@ -76,9 +72,9 @@ struct MainView: View {
                     SignUpView()
                 }
             }
-            .padding(18)
+            .padding()
         }
-        .ignoresSafeArea()
+        .background(.bg)
     }
 }
 

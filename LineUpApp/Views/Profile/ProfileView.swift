@@ -27,12 +27,14 @@ struct ProfileView: View {
                     authService.logout()
                 } label: {
                     Text("Se déconnecter")
-                        .foregroundStyle(.redBtn)
                         .bold()
                         .frame(maxWidth: .infinity)
+                        .bold()
                         .frame(height: 55)
                         .background(.white, in: .rect(cornerRadius: 12))
+                        .foregroundStyle(.redBtn)
                 }
+
                 Spacer()
             }
             .padding(.top, 40)

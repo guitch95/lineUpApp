@@ -42,23 +42,34 @@ struct LoginView: View {
                 .frame(height: 55)
                 .background(.white, in: .rect(cornerRadius: 12))
             }
-            Button {
-                Task {
-                   await authService.login(email: email, password: password)
-                }
-            } label: {
-                Text("Se connecter")
-                    .frame(maxWidth: .infinity)
-                    .bold()
-                    .frame(height: 55)
-                    .background(.redBtn, in: .rect(cornerRadius: 12))
-                    .foregroundStyle(.white)
-            }
+
             if let errorMessage = authService.errorMessage {
                 Text(errorMessage)
                     .font(.caption)
                     .foregroundStyle(.red)
             }
+            Button {
+                Task {
+                    await authService.login(email: email, password: password)
+                }
+            } label: {
+                Group {
+                    if authService.isLoading {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        Text("Se connecter")
+                            .bold()
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .bold()
+                .frame(height: 55)
+                .background(.redBtn, in: .rect(cornerRadius: 12))
+                .foregroundStyle(.white)
+
+            }
+            .disabled(authService.isLoading)
             Spacer()
         }
     }

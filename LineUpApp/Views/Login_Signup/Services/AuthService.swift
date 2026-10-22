@@ -11,6 +11,7 @@ import Observation
 @Observable
 final class AuthService {
     private(set) var user: UserResponse?
+    private(set) var isLoading = false
     var errorMessage: String?
     var isLoggedIn: Bool { user != nil }
 
@@ -20,6 +21,8 @@ final class AuthService {
     // Inscription (POST /users) puis connecte automatiquement l'utilisateur
     func register(name: String, email: String, password: String) async {
         errorMessage = nil
+        isLoading = true
+        defer { isLoading = false }
         do {
             var request = URLRequest(url: baseURL.appending(path: "users"))
             request.httpMethod = "POST"
@@ -42,7 +45,7 @@ final class AuthService {
             case 409:
                 errorMessage = "Cet email est déjà utilisé."
             case 400:
-                errorMessage = "Vérifiez vos informations (mot de passe : 8 caractères minimum)."
+                errorMessage = "Vérifiez vos informations de connexion."
             default:
                 errorMessage = "Une erreur est survenue (\(http.statusCode))."
             }
@@ -53,6 +56,8 @@ final class AuthService {
 
     func login(email: String, password: String) async {
         errorMessage = nil
+        isLoading = true
+        defer { isLoading = false }
         do {
             var request = URLRequest(url: baseURL.appending(path: "auth/login"))
             request.httpMethod = "POST"
@@ -90,7 +95,6 @@ final class AuthService {
         guard let token = UserDefaults.standard.string(forKey: tokenKey) else {
             return
         }
-
         do {
             var request = URLRequest(url: baseURL.appending(path: "auth/me"))
             // Méthode GET par défaut
@@ -115,7 +119,10 @@ final class AuthService {
     }
 
     func logout() {
-        UserDefaults.standard.removeObject(forKey: tokenKey)
-        user = nil
+        Task {
+            try? await Task.sleep(for: .seconds(1))
+            UserDefaults.standard.removeObject(forKey: tokenKey)
+            user = nil
+        }
     }
 }

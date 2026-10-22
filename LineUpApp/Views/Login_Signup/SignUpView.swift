@@ -53,25 +53,45 @@ struct SignUpView: View {
                 .padding()
                 .frame(height: 55)
                 .background(.white, in: .rect(cornerRadius: 12))
+
+                if let errorMessage = authService.errorMessage {
+                    Text(errorMessage)
+                        .font(.caption)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.red)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.top, 10)
+                }
+
             }
-            if let errorMessage = authService.errorMessage {
-                Text(errorMessage)
-                    .font(.caption)
-                    .foregroundStyle(.red)
-            }
+
             Button {
                 Task {
-                    await authService.register(name: name, email: email, password: password)
+                    await authService.register(
+                        name: name,
+                        email: email,
+                        password: password
+                    )
                 }
             } label: {
-                Text("Créer mon compte")
-                    .frame(maxWidth: .infinity)
-                    .bold()
-                    .frame(height: 55)
-                    .background(.redBtn, in: .rect(cornerRadius: 12))
-                    .foregroundStyle(.white)
+                Group {
+                    if authService.isLoading {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        Text("Créer mon compte")
+                            .bold()
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 55)
+                .background(.redBtn, in: .rect(cornerRadius: 12))
+                .foregroundStyle(.white)
             }
+            .disabled(authService.isLoading)
+
             Spacer()
+
         }
     }
 
