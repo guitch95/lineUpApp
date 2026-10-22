@@ -12,13 +12,17 @@ struct DayButton: View {
     let day: Date
     @Binding var selectedDay: Date
 
-    private var isSelected: Bool { day == selectedDay }
+    private var isSelected: Bool {
+        Calendar.current.isDate(day, inSameDayAs: selectedDay)
+    }
 
     var body: some View {
         Button {
-            selectedDay = day
+            withAnimation(.easeInOut(duration: 0.2)) {
+                selectedDay = day
+            }
         } label: {
-            VStack(spacing: 6) {
+            VStack(spacing: 4) {
                 Text(day.formatted(.dateTime.weekday(.abbreviated)))
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -26,6 +30,10 @@ struct DayButton: View {
                 Text(day.formatted(.dateTime.day()))
                     .font(.system(.title3, design: .serif, weight: .bold))
                     .foregroundStyle(isSelected ? Color.redBtn : Color.primary)
+
+                Circle()
+                    .fill(isSelected ? Color.redBtn : Color.gold)
+                    .frame(width: 5, height: 5)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 10)

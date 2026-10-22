@@ -14,9 +14,7 @@ struct DaySelectorView: View {
     var body: some View {
         HStack(spacing: 4) {
             ForEach(days, id: \.self) { day in
-                DayButton(day: day, isSelected: day == selectedDay) {
-                    selectedDay = day
-                }
+                DayButton(day: day, selectedDay: $selectedDay)
             }
         }
         .padding(6)
