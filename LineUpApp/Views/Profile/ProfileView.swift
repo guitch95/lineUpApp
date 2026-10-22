@@ -8,22 +8,23 @@
 import SwiftUI
 
 struct ProfileView: View {
+
+    @Environment(AuthService.self) private var authService
+
     var body: some View {
         ZStack {
             Color.bg
-            VStack(spacing: 20){
+            VStack(spacing: 20) {
                 HStack {
                     Text("Profil")
                         .bold()
                         .font(.title)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-
                 Image(systemName: "person.fill")
                     .font(.largeTitle)
-
                 Button {
-                    print("hello")
+                    authService.logout()
                 } label: {
                     Text("Se déconnecter")
                         .foregroundStyle(.redBtn)
@@ -43,4 +44,5 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
+        .environment(AuthService())
 }

@@ -43,7 +43,9 @@ struct LoginView: View {
                 .background(.white, in: .rect(cornerRadius: 12))
             }
             Button {
-                print("Hello")
+                Task {
+                   await authService.login(email: email, password: password)
+                }
             } label: {
                 Text("Se connecter")
                     .frame(maxWidth: .infinity)

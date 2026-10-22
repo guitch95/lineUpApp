@@ -12,7 +12,7 @@ struct SignUpView: View {
     @Environment(AuthService.self) private var authService
     @State private var email = ""
     @State private var password = ""
-    @State private var name: String = ""
+    @State private var name = ""
 
     var body: some View {
         VStack(spacing: 30) {

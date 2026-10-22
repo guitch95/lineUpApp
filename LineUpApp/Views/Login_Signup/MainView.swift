@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var selected = "connexion"
+    @Environment(AuthService.self) private var authService
+    @State private var selected = "connexion"
     var body: some View {
         ZStack {
             Color.bg
@@ -20,7 +21,7 @@ struct MainView: View {
                         Text("LineUp")
                             .font(.title)
                             .bold()
-                        Text("Festival · Paris · 5–7 Sept 2026")
+                        Text("Festival · Naples · 6–8 Novembre 2026")
                             .foregroundStyle(.loginText)
                     }
                 }
@@ -29,27 +30,38 @@ struct MainView: View {
                 HStack {
                     Button {
                         selected = "connexion"
+                        authService.errorMessage = nil
                     } label: {
                         Text("Connexion")
                             .frame(maxWidth: .infinity)
                             .frame(height: 50)
                             .background(
-                                selected == "connexion" ? .white : .bgColorPicker,
+                                selected == "connexion"
+                                    ? .white : .bgColorPicker,
                                 in: .rect(cornerRadius: 8)
                             )
-                            .foregroundStyle(selected == "connexion" ? .black : .loginText)
+                            .foregroundStyle(
+                                selected == "connexion" ? .black : .loginText
+                            )
                     }
                     .animation(.smooth(duration: 0.5), value: selected)
 
                     Button {
                         selected = "inscription"
+                        authService.errorMessage = nil
 
                     } label: {
                         Text("Inscription")
                             .frame(maxWidth: .infinity)
                             .frame(height: 50)
-                            .background(selected == "inscription" ? .white : .bgColorPicker, in: .rect(cornerRadius: 8))
-                            .foregroundStyle(selected == "inscription" ? .black : .loginText)
+                            .background(
+                                selected == "inscription"
+                                    ? .white : .bgColorPicker,
+                                in: .rect(cornerRadius: 8)
+                            )
+                            .foregroundStyle(
+                                selected == "inscription" ? .black : .loginText
+                            )
                     }
                     .animation(.smooth(duration: 0.5), value: selected)
 
@@ -58,11 +70,11 @@ struct MainView: View {
                 .padding(5)
                 .background(.bgColorPicker, in: .rect(cornerRadius: 12))
 
-                    if selected == "connexion" {
-                        LoginView()
-                    } else {
-                        SignUpView()
-                    }
+                if selected == "connexion" {
+                    LoginView()
+                } else {
+                    SignUpView()
+                }
             }
             .padding(18)
         }
@@ -72,4 +84,5 @@ struct MainView: View {
 
 #Preview {
     MainView()
+        .environment(AuthService())
 }
