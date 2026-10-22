@@ -8,17 +8,8 @@
 import Foundation
 
 struct Category: Identifiable {
+    
     let id: UUID
     let name: String
-    let workshops: [Workshop]
 
-    init(
-        id: UUID,
-        name: String,
-        workshops: [Workshop]
-    ) {
-        self.id = id
-        self.name = name
-        self.workshops = workshops
-    }
 }

@@ -8,16 +8,29 @@
 import SwiftUI
 
 struct PlanningView: View {
-    var body: some View {
 
+    @State private var viewModel = PlanningViewModel(
+        workshops: Workshop.samples
+    )
+
+    var body: some View {
         ZStack {
             Color.bg
+                .ignoresSafeArea()
 
-            Text("Planning")
-
-
+            VStack(alignment: .leading, spacing: 20) {
+                HeaderView()
+                DaySelectorView(
+                    days: Workshop.sampleDays,
+                    selectedDay: $viewModel.selectedDay
+                )
+                WorkshopEmptyListView(
+                    workshops: viewModel.workshopsForSelectedDay
+                )
+            }
+            .padding()
         }
-        .ignoresSafeArea()
+        
     }
 }
 
