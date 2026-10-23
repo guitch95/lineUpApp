@@ -45,9 +45,7 @@ struct WorkshopCard: View {
             capacityMax: 20,
             subscribersNb: 15,
             description: "",
-            category: Category(id: UUID(), name: "Atelier Expression"),
-            location: "",
-            speaker: ""
+            category: Category(id: UUID(), name: "Atelier Expression")
         )
     )
     .padding()

@@ -8,16 +8,22 @@
 import SwiftUI
 
 struct DatePillButton: View {
-    @Binding var selectedDate: String
-    let dateText: String
+    @Binding var selectedDate: Date
+    let date: Date
     
+    private var dateText: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.dateFormat = "EEE d" // Ven 5
+        return formatter.string(from: date).capitalized // première lettre en majuscule
+    }
     var isSelected: Bool {
-        selectedDate == dateText
+        Calendar.current.isDate(date, inSameDayAs: selectedDate)
     }
     
     var body: some View {
         Button {
-            selectedDate = dateText
+            selectedDate = date
         } label: {
             Text(dateText)
                 .font(.system(size: 13))
@@ -32,5 +38,6 @@ struct DatePillButton: View {
 }
 
 #Preview {
-    DatePillButton(selectedDate: .constant("Ven 5"), dateText: "Ven 5")
+    let sampleDate = Calendar.current.date(from: DateComponents(year: 2026, month: 9, day: 5)) ?? Date()
+    DatePillButton(selectedDate: .constant(sampleDate), date: sampleDate)
 }

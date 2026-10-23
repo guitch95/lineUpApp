@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct ProgramView: View {
-    let mocks = Workshop.samples
+    @State private var vm = ProgramViewModel()
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 28) {
                     ScheduleHeaderView()
-                    DatePillPicker()
+                    DatePillPicker(availableDays: vm.availableDays, selectedDate: $vm.selectedDate)
                     
-                    ForEach(mocks) { mock in
-                        EventRow(workshop: mock)
+                    ForEach(vm.filteredWorkshops) { workshop in
+                        EventRow(workshop: workshop)
                         Divider()
                     }
                 }

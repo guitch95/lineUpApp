@@ -8,38 +8,16 @@
 import SwiftUI
 
 struct AvailabilityBadge: View {
-    var subscribersNb: Int
-    var capacityMax: Int
-    
-    var isComplete: Bool {
-        subscribersNb == capacityMax
-    }
-    var remainingPlaces: Int {
-        capacityMax - subscribersNb
-    }
-    
-    private var badgeText: String {
-        if isComplete {
-            return "Complet"
-        } else if remainingPlaces == 1 {
-            return "1 place"
-        } else {
-            return "\(remainingPlaces) places"
-        }
-    }
-    
-    private var badgeColor: Color {
-        isComplete ? .btnListeAttente : .availableGreen
-    }
+    let workshop: Workshop
     
     var body: some View {
-        Text(badgeText)
+        Text(workshop.badgeText)
             .font(.system(size: 11))
             .fontWeight(.medium)
-            .foregroundStyle(badgeColor)
+            .foregroundStyle(workshop.badgeColor)
     }
 }
 
 #Preview {
-    AvailabilityBadge(subscribersNb: 4, capacityMax: 5)
+    AvailabilityBadge(workshop: Workshop.samples[0])
 }

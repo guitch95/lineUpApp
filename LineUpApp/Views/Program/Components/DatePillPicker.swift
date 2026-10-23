@@ -8,18 +8,24 @@
 import SwiftUI
 
 struct DatePillPicker: View {
-    let dates: [String] = ["Ven 5", "Sam 6", "Dim 7"]
-    @State private var selectedDate = "Ven 5"
+    let availableDays: [Date]
+    @Binding var selectedDate: Date
     
     var body: some View {
         HStack() {
-            ForEach(dates, id: \.self) { date in
-                DatePillButton(selectedDate: $selectedDate, dateText: date)
+            ForEach(availableDays, id: \.self) { date in
+                DatePillButton(selectedDate: $selectedDate, date: date)
             }
         }
     }
 }
 
 #Preview {
-    DatePillPicker()
+    let sampleDates = [
+            Calendar.current.date(from: DateComponents(year: 2026, month: 9, day: 5)) ?? Date(),
+            Calendar.current.date(from: DateComponents(year: 2026, month: 9, day: 6)) ?? Date(),
+            Calendar.current.date(from: DateComponents(year: 2026, month: 9, day: 7)) ?? Date()
+        ]
+    
+    DatePillPicker(availableDays: sampleDates, selectedDate: .constant(sampleDates[0]))
 }

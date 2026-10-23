@@ -13,11 +13,6 @@ struct EventRow: View {
     private func formatTime(_ date: Date) -> String {
         date.formatted(.dateTime.hour().minute().locale(Locale(identifier: "fr_FR")))
     }
-//    
-//    func makeDate(hour: Int, minute: Int) -> Date {
-//            let calendar = Calendar.current
-//            return calendar.date(bySettingHour: hour, minute: minute, second: 0, of: Date()) ?? Date()
-//        }
     
     var body: some View {
         HStack {
@@ -33,19 +28,16 @@ struct EventRow: View {
                     CategoryTag(category: workshop.category.name)
                 }
                 
-                Text(workshop.speaker ?? "")
+                Text(workshop.speaker)
                     .font(.system(size: 12))
                     .fontWeight(.regular)
                     .foregroundStyle(.fontGrayBtn)
 
                 HStack(spacing: 0) {
                     Text("\(formatTime(workshop.startTime)) – \(formatTime(workshop.endTime))")
-                    Text(" · \(String(describing: workshop.location))")
+                    Text(" · \(workshop.location)")
                     Spacer()
-                    AvailabilityBadge(
-                        subscribersNb: workshop.subscribersNb,
-                        capacityMax: workshop.capacityMax
-                    )
+                    AvailabilityBadge(workshop: workshop)
                 }
                 .font(.system(size: 11))
                 .fontWeight(.regular)
@@ -54,25 +46,6 @@ struct EventRow: View {
         }
     }
 }
-
-//#Preview {
-//    EventRow(
-//        workshop: Workshop(
-//            id: UUID(),
-//            name: "Maîtrise de la voix",
-//            startTime: Workshop.dates(day: 2, hour: 19, minute: 0),
-//            endTime: Workshop.date(day: 2, hour: 20, minute: 30),
-//            capacityMax: 10,
-//            subscribersNb: 8,
-//            description: "Atelier vocal complet",
-//            category: Category(id: UUID(), name: "VOIX"),
-//            location: "Cour des Célestins",
-//            speaker: "Collectif La Voix Haute"
-//        ),
-//        
-//    )
-//    .padding()
-//}
 
 #Preview {
     EventRow(workshop: Workshop.samples[0])
