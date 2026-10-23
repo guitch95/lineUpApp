@@ -16,9 +16,11 @@ struct EventRow: View {
     
     var body: some View {
         HStack {
-            RoundedRectangle(cornerRadius: 12)
-                .fill(.btnListeAttente)
+            Image(workshop.picture)
+                .resizable()
+                .scaledToFill()
                 .frame(width: 68, height: 68)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
                     Text(workshop.name)
