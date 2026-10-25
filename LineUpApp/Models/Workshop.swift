@@ -39,6 +39,7 @@ struct Workshop: Identifiable, Decodable {
    var badgeColor: Color {
        isComplete ? .btnListeAttente : .availableGreen
     }
+    
 }
 
 extension Workshop {

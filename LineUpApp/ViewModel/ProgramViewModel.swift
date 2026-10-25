@@ -10,10 +10,22 @@ import SwiftUI
 
 @Observable
 final class ProgramViewModel {
-    let workshops: [Workshop] = Workshop.samples
+    private let workshopService = WorkshopService()
     let availableDays: [Date] = Workshop.sampleDays
     
+    var workshops: [Workshop] {
+        workshopService.workshops
+    }
+    
+    var errorMessage: String? {
+        workshopService.errorMessage
+    }
+    
     var selectedDate: Date = Workshop.sampleDays.first ?? Date()
+    
+    func fetchWorkshops() async {
+        await workshopService.fetchWorkshops()
+    }
     
     var filteredWorkshops: [Workshop] {
         let calendar = Calendar.current

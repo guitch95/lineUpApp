@@ -23,6 +23,9 @@ struct ProgramView: View {
                     }
                 }
                 .padding()
+                .task {
+                    await vm.fetchWorkshops()
+                }
             }
             .background(.bg)
         }

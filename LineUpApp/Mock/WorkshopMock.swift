@@ -40,8 +40,8 @@ extension Workshop {
             Workshop(
                 id: UUID(),
                 name: "Maitrise de la voix",
-                startTime: date(day: 4, hour: 19, minute: 0),
-                endTime: date(day: 4, hour: 20, minute: 30),
+                startTime: date(day: 5, hour: 19, minute: 0),
+                endTime: date(day: 5, hour: 20, minute: 30),
                 capacityMax: 15,
                 subscribersNb: 15,
                 description: "Explorez toute la puissance et la subtilité de votre organe vocal. À travers des exercices de respiration guidée, de placement de la voix et de résonance corporelle, vous apprendrez à projeter sans forcer et à captiver votre auditoire en toutes circonstances.",
@@ -70,8 +70,8 @@ extension Workshop {
             Workshop(
                 id: UUID(),
                 name: "Corps & Récit",
-                startTime: date(day: 5, hour: 16, minute: 0),
-                endTime: date(day: 5, hour: 18, minute: 0),
+                startTime: date(day: 7, hour: 16, minute: 0),
+                endTime: date(day: 7, hour: 18, minute: 0),
                 capacityMax: 20,
                 subscribersNb: 13,
                 description: "Quand le mouvement précède et enrichit la parole. En explorant la mémoire corporelle, l'espace scénique et la gestuelle spontanée, vous découvrirez comment raconter des histoires puissantes grâce à l'expressivité physique.",
@@ -80,8 +80,8 @@ extension Workshop {
             Workshop(
                 id: UUID(),
                 name: "Mise en lumière",
-                startTime: date(day: 4, hour: 11, minute: 0),
-                endTime: date(day: 4, hour: 13, minute: 0),
+                startTime: date(day: 7, hour: 11, minute: 0),
+                endTime: date(day: 7, hour: 13, minute: 0),
                 capacityMax: 15,
                 subscribersNb: 11,
                 description: "Comprendre l'interaction intime entre l'acteur et l'éclairage théâtral. Expérimentez le jeu sous différentes atmosphères lumineuses et découvrez comment vous positionner par rapport aux projecteurs pour valoriser la mise en scène.",
