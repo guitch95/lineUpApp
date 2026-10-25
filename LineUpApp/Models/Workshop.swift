@@ -8,7 +8,6 @@
 import Foundation
 
 struct Workshop: Identifiable, Codable {
-
     let id: UUID
     let name: String
     let startTime: Date
@@ -17,7 +16,15 @@ struct Workshop: Identifiable, Codable {
     let subscribersNb: Int
     let description: String
     let category: Category
-    let location: String
-    let speaker: String
+}
 
+struct WorkshopCategory: Decodable {
+    let id: UUID
+    let categoryName: String
+}
+
+extension Workshop {
+    var location: String {
+        Workshop.locations[name] ?? "Salle 01"
+    }
 }
