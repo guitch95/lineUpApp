@@ -8,6 +8,16 @@
 import Foundation
 
 extension Workshop {
+    static let locations: [String: String] = [
+        "Maitrise de la voix": "Cours des Célestins",
+        "Lecture perchée": "Studio Artaud",
+        "Éloquence en scène": "Salle Comédie",
+        "Corps & Récit": "Cours des Arts",
+        "Mise en lumière": "Atelier technique",
+        "Jeu masqué": "Salle Molière",
+        "Improvisation": "Salle Vilar",
+    ]
+
     static let samples: [Workshop] = {
         let calendar = Calendar.current
 
@@ -45,9 +55,7 @@ extension Workshop {
                 capacityMax: 20,
                 subscribersNb: 15,
                 description: "",
-                category: expression,
-                location: "Salle Molière",
-                speaker: "Camille Durand"
+                category: expression
             ),
             Workshop(
                 id: UUID(),
@@ -57,9 +65,7 @@ extension Workshop {
                 capacityMax: 15,
                 subscribersNb: 15,
                 description: "",
-                category: technique,
-                location: "Salle Jouvet",
-                speaker: "Julien Martin"
+                category: technique
             ),
             Workshop(
                 id: UUID(),
@@ -69,9 +75,7 @@ extension Workshop {
                 capacityMax: 25,
                 subscribersNb: 20,
                 description: "",
-                category: improvisation,
-                location: "Salle Vilar",
-                speaker: "Sophie Bernard"
+                category: improvisation
             ),
         ]
     }()
