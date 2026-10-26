@@ -32,7 +32,7 @@ struct DayButton: View {
                     .foregroundStyle(isSelected ? Color.redBtn : Color.primary)
 
                 Circle()
-                    .fill(isSelected ? Color.redBtn : .bg /*Color.gold*/)
+                    .fill(isSelected ? Color.redBtn : Color.yellow)
                     .frame(width: 5, height: 5)
             }
             .frame(maxWidth: .infinity)

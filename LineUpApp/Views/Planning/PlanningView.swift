@@ -9,9 +9,7 @@ import SwiftUI
 
 struct PlanningView: View {
 
-    @State private var viewModel = PlanningViewModel(
-        workshops: Workshop.samples
-    )
+    @State private var viewModel = PlanningViewModel()
 
     var body: some View {
         ZStack {
@@ -21,7 +19,7 @@ struct PlanningView: View {
             VStack(alignment: .leading, spacing: 20) {
                 HeaderView()
                 DaySelectorView(
-                    days: Workshop.sampleDays,
+                    days: viewModel.days,
                     selectedDay: $viewModel.selectedDay
                 )
                 WorkshopEmptyListView(
@@ -29,6 +27,9 @@ struct PlanningView: View {
                 )
             }
             .padding()
+            .task {
+                await viewModel.loadWorkshops()
+            }
         }
         
     }

@@ -22,7 +22,7 @@ struct WorkshopCard: View {
             Text(timeRange)
                 .font(.subheadline)
 
-            Label(workshop.category.name, systemImage: "mappin.and.ellipse")
+            Label(workshop.location, systemImage: "mappin.and.ellipse")
                 .font(.subheadline)
         }
         .foregroundStyle(.white)
@@ -36,17 +36,6 @@ struct WorkshopCard: View {
 }
 
 #Preview {
-    WorkshopCard(
-        workshop: Workshop(
-            id: UUID(),
-            name: "Jeu masqué",
-            startTime: Date(),
-            endTime: Date().addingTimeInterval(7200),
-            capacityMax: 20,
-            subscribersNb: 15,
-            description: "",
-            category: Category(id: UUID(), name: "Atelier Expression")
-        )
-    )
-    .padding()
+    WorkshopCard(workshop: Workshop.samples[0])
+        .padding()
 }
