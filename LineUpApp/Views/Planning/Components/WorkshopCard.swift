@@ -36,17 +36,6 @@ struct WorkshopCard: View {
 }
 
 #Preview {
-    WorkshopCard(
-        workshop: Workshop(
-            id: UUID(),
-            name: "Jeu masqué",
-            startTime: Date(),
-            endTime: Date().addingTimeInterval(7200),
-            capacityMax: 20,
-            subscribersNb: 15,
-            description: "",
-            category: Category(id: UUID(), name: "Atelier Expression", workshops: [])
-        )
-    )
+    WorkshopCard(workshop: Workshop.samples[0])
     .padding()
 }
