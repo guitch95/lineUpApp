@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct User: Identifiable, Codable {
-
+struct User: Identifiable, Decodable {
     let id: UUID
     let name: String
     let email: String
@@ -16,5 +15,4 @@ struct User: Identifiable, Codable {
     let role: UserRole
     let createdAt: Date?
     let reservations: [Reservation]
-
 }

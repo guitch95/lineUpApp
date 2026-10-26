@@ -2,44 +2,41 @@
 //  WorkshopService.swift
 //  LineUpApp
 //
-//  Created by Apprenant151 on 25/10/2026.
+//  Created by Canessane Ramya on 25/10/2026.
 //
 
 import Foundation
 
 @Observable
 final class WorkshopService {
-    private(set) var workshops: [Workshop] = []  // stocke les ateliers récupérés
-    var errorAlert: String?
-    var isLoading = false
-
+    private(set) var workshops: [Workshop] = Workshop.samples
+    var errorMessage: String?
+    
     private let baseURL = URL(string: "http://127.0.0.1:8080")!
-
+    
     func fetchWorkshops() async {
-        isLoading = true
-        defer {
-            isLoading = false
-        }
-        errorAlert = nil
-
+        errorMessage = nil
         let url = baseURL.appending(path: "workshops")
-
+        
         do {
             let (data, response) = try await URLSession.shared.data(from: url)
-            print(String(data: data, encoding: .utf8) ?? "")
-
+            
             guard let http = response as? HTTPURLResponse,
-                http.statusCode == 200
+                  http.statusCode == 200
             else {
-                errorAlert = "Erreur du chargement des workshops"
+                errorMessage = "Impossible de charger les ateliers"
                 return
             }
-
+            
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
-            workshops = try decoder.decode([Workshop].self, from: data)
+            
+            let fetchedWorkshops = try decoder.decode([Workshop].self, from: data)
+            
+            self.workshops = Workshop.samples + fetchedWorkshops
+            
         } catch {
-            errorAlert = "Pas de connexion au serveur"
+            errorMessage = "Impossible de contacter le serveur"
         }
     }
 }
