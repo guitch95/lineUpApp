@@ -7,9 +7,12 @@
 
 import Foundation
 
-struct Category: Identifiable {
-    
+struct Category: Identifiable, Decodable {
     let id: UUID
     let name: String
-
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name = "categoryName"
+    }
 }

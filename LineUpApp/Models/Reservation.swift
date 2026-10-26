@@ -7,11 +7,9 @@
 
 import Foundation
 
-struct Reservation: Identifiable {
-
+struct Reservation: Identifiable, Decodable {
     let id: UUID
     let status: ReservationStatus
     let user: User
     let workshop: Workshop
-
 }
