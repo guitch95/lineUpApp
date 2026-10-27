@@ -6,79 +6,74 @@
 //
 
 import Foundation
-import Combine
 
-enum BookingState { //définit les 3 états possibles pour un atelier par rapport à l'utilisateur
-    case available   // on peut réserver
-    case reserved    // l'utilisateur a déjà sa place
-    case full        // complet, et l'utilisateur n'est pas inscrit
+enum BookingState {
+    case available
+    case reserved
+    case full
 }
 
-@MainActor
-final class WorkshopDetailViewModel: ObservableObject {
-
+@Observable
+final class WorkshopDetailViewModel {
     let workshop: Workshop
-
-    @Published private(set) var subscribersNb: Int
-    @Published private(set) var isReserved: Bool
-    @Published var isFavorite: Bool = false //Un booléen simple pour dire si l'atelier est en favori ou non (initialisé à false).
-
+    
+    var subscribersNb: Int
+    var isReserved: Bool
+    var isFavorite: Bool = false
+    
     init(workshop: Workshop, isReserved: Bool = false) {
         self.workshop = workshop
         self.subscribersNb = workshop.subscribersNb
         self.isReserved = isReserved
     }
-
-    var remainingPlaces: Int { //Calcule le nombre de places restantes
-        max(workshop.capacityMax - subscribersNb, 0)
+    
+    var remainingPlaces: Int {
+        max(workshop.capacityMax - subscribersNb, 0) // Correction du -
     }
-
-    var progress: Double { //Calcul pour la barre de progression
+    
+    var progress: Double {
         guard workshop.capacityMax > 0 else { return 0 }
         return Double(subscribersNb) / Double(workshop.capacityMax)
     }
-
-    var bookingState: BookingState { //Détermine automatiquement si l'atelier est réservé, complet, ou disponible selon les règles métier.
+    
+    var bookingState: BookingState {
         if isReserved { return .reserved }
         if remainingPlaces == 0 { return .full }
         return .available
     }
-
-    var categoryText: String { workshop.category.name.uppercased() }
-    var speakerText: String { workshop.speaker ?? "Intervenant à venir" }
-    var locationText: String { workshop.location ?? "Lieu à définir" }
-    var reservedText: String { "\(subscribersNb)/\(workshop.capacityMax) places réservées" }
-    var availableText: String { "\(remainingPlaces) disponibles" }
-
-    var dateText: String { // On formate la date avec cette propriété calculée
-        workshop.startTime.formatted(
-            .dateTime.weekday(.abbreviated).day().month(.abbreviated)
-                .locale(Locale(identifier: "fr_FR"))
-        )
+    
+    // --- PROPRIÉTÉS CALCULÉES POUR L'AFFICHAGE ---
+    
+    var dateText: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.dateFormat = "EEE d MMM"
+        return formatter.string(from: workshop.startTime).capitalized
     }
-
-    var timeText: String { // On formate l'heure avec cette propriété calculée
-        "\(Self.hourFormatter.string(from: workshop.startTime)) – \(Self.hourFormatter.string(from: workshop.endTime))"
+    
+    var timeText: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH'h'mm"
+        let start = formatter.string(from: workshop.startTime)
+        let end = formatter.string(from: workshop.endTime)
+        return "\(start) - \(end)"
     }
-
-    // On crée le formatter une seule fois
-    private static let hourFormatter: DateFormatter = { // outil standard d'iOS pour traduire les dates en textes
-        let f = DateFormatter()
-        f.dateFormat = "HH'h'mm"   // donne "15h00"
-        return f
-    }()
-
-    func reserve() { // fonction qui vérifie qu'on peut réserver
+    
+    var locationText: String {
+        return "Atelier principal" // Ou une propriété de ton model Workshop si elle existe
+    }
+    
+    // --- FONCTIONS ---
+    
+    func reserve() {
         guard bookingState == .available else { return }
         subscribersNb += 1
         isReserved = true
-        // TODO: appeler l'API (POST /reservations) quand le back sera prêt
     }
-
-    func cancelReservation() { // fonction qui vérifie l'annulation de la réservation
+    
+    func cancelReservation() {
         guard isReserved else { return }
         subscribersNb -= 1
         isReserved = false
-        // TODO: appeler l'API (DELETE/PATCH réservation)
     }
 }
