@@ -9,12 +9,26 @@ import SwiftUI
 
 struct ProgramView: View {
     @State private var vm = ProgramViewModel()
+    @State private var selectedFeaturedIndex = 0
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 28) {
                     ScheduleHeaderView()
+                    TabView(selection: $selectedFeaturedIndex) {
+                        ForEach(Array(vm.featuredWorkshops.enumerated()), id: \.offset) { index, workshop in
+                            FeaturedWorkshopCard(
+                                workshop: workshop,
+                                numberOfPages: vm.featuredWorkshops.count,
+                                currentIndex: selectedFeaturedIndex
+                            )
+                            .tag(index)
+                        }
+                    }
+                    .tabViewStyle(.page(indexDisplayMode: .never)) 
+                    .frame(height: 180)
+                    
                     HStack {
                         DatePillPicker(availableDays: vm.availableDays, selectedDate: $vm.selectedDate)
                         Spacer()

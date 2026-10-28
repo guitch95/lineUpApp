@@ -17,6 +17,7 @@ struct DatePillButton: View {
         formatter.dateFormat = "EEE d" // Ven 6
         return formatter.string(from: date).capitalized // première lettre en majuscule
     }
+    
     var isSelected: Bool {
         Calendar.current.isDate(date, inSameDayAs: selectedDate)
     }

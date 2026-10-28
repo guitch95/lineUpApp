@@ -21,6 +21,10 @@ final class ProgramViewModel {
         workshopService.errorMessage
     }
     
+    var featuredWorkshops: [Workshop] {
+        Array(workshops.prefix(3))
+    }
+    
     var selectedDate: Date = Workshop.sampleDays.first ?? Date()
     
     var selectedCategory: String? = nil
