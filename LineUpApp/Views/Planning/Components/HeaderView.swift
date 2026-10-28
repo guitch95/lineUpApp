@@ -9,12 +9,14 @@ import SwiftUI
 
 struct HeaderView: View {
     
+    let reservedCount: Int
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Mon planning")
                 .font(.system(.largeTitle, design: .serif, weight: .bold))
 
-            Text("5 ateliers réservés sur le festival")
+            Text("\(reservedCount) ateliers réservés sur le festival")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -22,5 +24,5 @@ struct HeaderView: View {
 }
 
 #Preview {
-    HeaderView()
+    HeaderView(reservedCount: 5)
 }
