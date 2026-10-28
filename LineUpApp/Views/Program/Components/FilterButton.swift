@@ -8,17 +8,21 @@
 import SwiftUI
 
 struct FilterButton: View {
-    let categories = ["Tous", "Voix", "Impro", "Théâtre", "Mise en scène"]
+    let categories = WorkshopCategory.allCases
     @Binding var selectedCategory: String?
     
     var body: some View {
         Menu {
             ForEach(categories, id: \.self) { category in
                 Button {
-                    selectedCategory = category
+                    selectedCategory = (category == .all) ? nil : category.rawValue
                 } label: {
-                    Text(category)
-                    if selectedCategory == category {
+                    Text(category.rawValue)
+                    
+                    // vérifie si la catégorie correspond ou si on est sur "Tous" (nil)
+                    let isSelected = (selectedCategory == category.rawValue) || (selectedCategory == nil && category == .all)
+                    
+                    if isSelected {
                         Image(systemName: "checkmark")
                     }
                 }
@@ -45,5 +49,3 @@ struct FilterButton: View {
 #Preview {
     FilterButton(selectedCategory: .constant("Tous"))
 }
-
-

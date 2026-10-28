@@ -10,7 +10,7 @@ import SwiftUI
 struct ScheduleHeaderView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("6 - 8 novembre · Lyon")
+            Text("6 - 8 novembre · Naples")
                 .font(.system(size: 11))
                 .textCase(.uppercase)
                 .fontWeight(.medium)

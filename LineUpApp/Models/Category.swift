@@ -16,3 +16,4 @@ struct Category: Identifiable, Decodable {
         case name = "categoryName"
     }
 }
+
