@@ -15,11 +15,23 @@ struct ProgramView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 28) {
                     ScheduleHeaderView()
-                    DatePillPicker(availableDays: vm.availableDays, selectedDate: $vm.selectedDate)
-                    
-                    ForEach(vm.filteredWorkshops) { workshop in
-                        EventRow(workshop: workshop)
-                        Divider()
+                    HStack {
+                        DatePillPicker(availableDays: vm.availableDays, selectedDate: $vm.selectedDate)
+                        Spacer()
+                        FilterButton(selectedCategory: $vm.selectedCategory)
+                    }
+                    if vm.filteredWorkshops.isEmpty {
+                        Spacer()
+                        Text("Aucun atelier ne correspond à la date et à la catégorie sélectionnées.")
+                            .foregroundStyle(.loginText)
+                            .frame(maxWidth: .infinity)
+                            .frame(minHeight: 400)
+                        Spacer()
+                    } else {
+                        ForEach(vm.filteredWorkshops) { workshop in
+                            EventRow(workshop: workshop)
+                            Divider()
+                        }
                     }
                 }
                 .padding()

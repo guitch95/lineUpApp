@@ -14,7 +14,7 @@ struct DatePillButton: View {
     private var dateText: String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "fr_FR")
-        formatter.dateFormat = "EEE d" // Ven 5
+        formatter.dateFormat = "EEE d" // Ven 6
         return formatter.string(from: date).capitalized // première lettre en majuscule
     }
     var isSelected: Bool {
@@ -38,6 +38,6 @@ struct DatePillButton: View {
 }
 
 #Preview {
-    let sampleDate = Calendar.current.date(from: DateComponents(year: 2026, month: 9, day: 5)) ?? Date()
+    let sampleDate = Calendar.current.date(from: DateComponents(year: 2026, month: 11, day: 6)) ?? Date()
     DatePillButton(selectedDate: .constant(sampleDate), date: sampleDate)
 }

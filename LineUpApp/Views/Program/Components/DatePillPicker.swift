@@ -22,9 +22,9 @@ struct DatePillPicker: View {
 
 #Preview {
     let sampleDates = [
-            Calendar.current.date(from: DateComponents(year: 2026, month: 9, day: 5)) ?? Date(),
-            Calendar.current.date(from: DateComponents(year: 2026, month: 9, day: 6)) ?? Date(),
-            Calendar.current.date(from: DateComponents(year: 2026, month: 9, day: 7)) ?? Date()
+            Calendar.current.date(from: DateComponents(year: 2026, month: 11, day: 6)) ?? Date(),
+            Calendar.current.date(from: DateComponents(year: 2026, month: 11, day: 7)) ?? Date(),
+            Calendar.current.date(from: DateComponents(year: 2026, month: 11, day: 8)) ?? Date()
         ]
     
     DatePillPicker(availableDays: sampleDates, selectedDate: .constant(sampleDates[0]))
