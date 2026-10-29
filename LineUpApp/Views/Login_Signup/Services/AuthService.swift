@@ -17,6 +17,7 @@ final class AuthService {
 
     private let baseURL = URL(string: "http://127.0.0.1:8080")!
     private let tokenKey = "authToken"
+    var token: String? { UserDefaults.standard.string(forKey: tokenKey) }  // Read the saved token from the device (nil if there is none)
 
     // Inscription (POST /users) puis connecte automatiquement l'utilisateur
     func register(name: String, email: String, password: String) async {
