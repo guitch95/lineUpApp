@@ -7,13 +7,21 @@
 
 import SwiftUI
 
-
 struct DayButton: View {
     let day: Date
+    let hasReservation: Bool
     @Binding var selectedDay: Date
 
     private var isSelected: Bool {
         Calendar.current.isDate(day, inSameDayAs: selectedDay)
+    }
+
+    private var weekdayLabel: String {
+        day.formatted(
+            .dateTime.weekday(.wide).locale(Locale(identifier: "fr_FR"))
+        )
+        .replacingOccurrences(of: ".", with: "")
+        .capitalized
     }
 
     var body: some View {
@@ -23,7 +31,7 @@ struct DayButton: View {
             }
         } label: {
             VStack(spacing: 4) {
-                Text(day.formatted(.dateTime.weekday(.abbreviated)))
+                Text(weekdayLabel)
                     .font(.caption)
                     .foregroundStyle(.secondary)
 
@@ -32,8 +40,9 @@ struct DayButton: View {
                     .foregroundStyle(isSelected ? Color.redBtn : Color.primary)
 
                 Circle()
-                    .fill(isSelected ? Color.redBtn : Color.yellow)
+                    .fill(isSelected ? Color.redBtn : Color.gold)
                     .frame(width: 5, height: 5)
+                    .opacity(hasReservation ? 1 : 0)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 10)
@@ -47,5 +56,5 @@ struct DayButton: View {
 }
 
 #Preview {
-    DayButton(day: Date(), selectedDay: .constant(Date()))
+    DayButton(day: Date(), hasReservation: true, selectedDay: .constant(Date()))
 }
