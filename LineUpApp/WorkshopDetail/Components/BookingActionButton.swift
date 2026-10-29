@@ -8,13 +8,16 @@ import SwiftUI
 
 struct BookingActionButton: View {
     @Bindable var viewModel: WorkshopDetailViewModel
-    
+    @Environment(AuthService.self) private var authService
+
     var body: some View {
         Button {
-            if viewModel.bookingState == .available {
-                viewModel.reserve()
-            } else if viewModel.bookingState == .reserved {
-                viewModel.cancelReservation()
+            Task {
+                if viewModel.bookingState == .available {
+                    await viewModel.reserve(token: authService.token)
+                } else if viewModel.bookingState == .reserved {
+                    await viewModel.cancelReservation(token: authService.token)
+                }
             }
         } label: {
             Text(buttonTitle)
@@ -25,8 +28,14 @@ struct BookingActionButton: View {
                 .background(buttonBackgroundColor)
                 .cornerRadius(12)
         }
-        .disabled(viewModel.bookingState == .full)
+        .disabled(viewModel.bookingState == .full || viewModel.isLoading)
         .padding(.top, 8)
+
+        if let errorMessage = viewModel.errorMessage {
+            Text(errorMessage)
+                .font(.caption)
+                .foregroundStyle(.red)
+        }
     }
     
     // Les propriétés calculées logées proprement dans le composant

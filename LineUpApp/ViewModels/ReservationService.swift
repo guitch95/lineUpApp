@@ -52,4 +52,71 @@ final class ReservationService {
             print(error)
         }
     }
+
+    // Book a workshop for the user: POST /reservations
+    func createReservation(workshopID: UUID, token: String) async -> ReservationResponse? {
+        errorMessage = nil
+        var request = URLRequest(url: baseURL.appending(path: "reservations"))
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        do {
+            request.httpBody = try JSONEncoder().encode(["workshopID": workshopID])
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+            guard let http = response as? HTTPURLResponse else {
+                errorMessage = "Réponse invalide du serveur"
+                return nil
+            }
+
+            switch http.statusCode {
+            case 200:
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
+                let reservation = try decoder.decode(ReservationResponse.self, from: data)
+                reservations.append(reservation)
+                return reservation
+            case 401:
+                errorMessage = "Session expirée, reconnectez-vous"
+            case 409:
+                errorMessage = "L'atelier est complet"
+            default:
+                errorMessage = "Impossible de réserver cet atelier"
+            }
+        } catch {
+            errorMessage = "Impossible de contacter le serveur"
+        }
+        return nil
+    }
+
+    // Cancel a reservation of the user: DELETE /reservations/:id
+    func deleteReservation(id: UUID, token: String) async -> Bool {
+        errorMessage = nil
+        var request = URLRequest(url: baseURL.appending(path: "reservations/\(id.uuidString)"))
+        request.httpMethod = "DELETE"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+
+            guard let http = response as? HTTPURLResponse else {
+                errorMessage = "Réponse invalide du serveur"
+                return false
+            }
+
+            switch http.statusCode {
+            case 200, 204:
+                reservations.removeAll { $0.id == id }
+                return true
+            case 401:
+                errorMessage = "Session expirée, reconnectez-vous"
+            default:
+                errorMessage = "Impossible d'annuler la réservation"
+            }
+        } catch {
+            errorMessage = "Impossible de contacter le serveur"
+        }
+        return false
+    }
 }

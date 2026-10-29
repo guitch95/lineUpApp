@@ -16,15 +16,27 @@ enum BookingState {
 @Observable
 final class WorkshopDetailViewModel {
     let workshop: Workshop
-    
+    private let reservationService: ReservationService
+
     var subscribersNb: Int
-    var isReserved: Bool
     var isFavorite: Bool = false
-    
-    init(workshop: Workshop, isReserved: Bool = false) {
+    var isLoading = false
+
+    // Id de la réservation de l'utilisateur pour cet atelier (nil si pas réservé)
+    private var reservationID: UUID?
+
+    var isReserved: Bool {
+        reservationID != nil
+    }
+
+    var errorMessage: String? {
+        reservationService.errorMessage
+    }
+
+    init(workshop: Workshop, reservationService: ReservationService = ReservationService()) {
         self.workshop = workshop
+        self.reservationService = reservationService
         self.subscribersNb = workshop.subscribersNb
-        self.isReserved = isReserved
     }
     
     var remainingPlaces: Int {
@@ -65,15 +77,32 @@ final class WorkshopDetailViewModel {
     
     // --- FONCTIONS ---
     
-    func reserve() {
-        guard bookingState == .available else { return }
-        subscribersNb += 1
-        isReserved = true
+    // Récupère les réservations de l'utilisateur pour savoir s'il a déjà réservé cet atelier
+    func loadReservation(token: String?) async {
+        guard let token else { return }
+        await reservationService.fetchReservationsUser(token: token)
+        reservationID = reservationService.reservations
+            .first { $0.workshopID == workshop.id && $0.status != .annulee }?
+            .id
     }
-    
-    func cancelReservation() {
-        guard isReserved else { return }
-        subscribersNb -= 1
-        isReserved = false
+
+    func reserve(token: String?) async {
+        guard bookingState == .available, let token else { return }
+        isLoading = true
+        defer { isLoading = false }
+        if let reservation = await reservationService.createReservation(workshopID: workshop.id, token: token) {
+            reservationID = reservation.id
+            subscribersNb += 1
+        }
+    }
+
+    func cancelReservation(token: String?) async {
+        guard let reservationID, let token else { return }
+        isLoading = true
+        defer { isLoading = false }
+        if await reservationService.deleteReservation(id: reservationID, token: token) {
+            self.reservationID = nil
+            subscribersNb = max(subscribersNb - 1, 0)
+        }
     }
 }

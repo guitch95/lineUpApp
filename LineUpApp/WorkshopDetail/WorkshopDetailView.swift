@@ -10,7 +10,8 @@ import SwiftUI
 struct WorkshopDetailView: View {
     @State var viewModel: WorkshopDetailViewModel
     @Environment(\.dismiss) var dismiss
-    
+    @Environment(AuthService.self) private var authService
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -144,9 +145,13 @@ struct WorkshopDetailView: View {
         } // Fin de la ScrollView
         .background(Color("bgColor"))
         .navigationBarHidden(true)
+        .task {
+            await viewModel.loadReservation(token: authService.token)
+        }
     } // Fin de var body
 } // Fin de struct WorkshopDetailView
 
 #Preview {
     WorkshopDetailView(viewModel: WorkshopDetailViewModel(workshop: Workshop.samples[0]))
+        .environment(AuthService())
 }
