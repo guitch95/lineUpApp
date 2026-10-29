@@ -24,43 +24,63 @@ struct DayScheduleView: View {
     }
 
     var body: some View {
-        ScrollView {
-            hourGrid
-                .overlay(alignment: .topLeading) {
-                    GeometryReader { geometry in
-                        let leading = labelWidth + spacing
-                        let availableWidth = geometry.size.width - leading
+        ScrollViewReader { proxy in
+            ScrollView {
+                hourGrid
+                    .overlay(alignment: .topLeading) {
+                        GeometryReader { geometry in
+                            let leading = labelWidth + spacing
+                            let availableWidth = geometry.size.width - leading
 
-                        ForEach(placedWorkshops) { placed in
-                            let count = CGFloat(placed.columnCount)
-                            let width =
-                                (availableWidth - spacing * (count - 1)) / count
+                            ForEach(placedWorkshops) { placed in
+                                let count = CGFloat(placed.columnCount)
+                                let width =
+                                    (availableWidth - spacing * (count - 1)) / count
 
-                            WorkshopCard(reservation: placed.reservation)
-                                .frame(
-                                    width: width,
-                                    height: height(of: placed.reservation)
-                                )
-                                .offset(
-                                    x: leading + CGFloat(placed.column)
-                                        * (width + spacing),
-                                    y: position(
-                                        of: placed.reservation.startTimeWorkshop
+                                WorkshopCard(reservation: placed.reservation)
+                                    .frame(
+                                        width: width,
+                                        height: height(of: placed.reservation)
                                     )
-                                )
+                                    .offset(
+                                        x: leading + CGFloat(placed.column)
+                                            * (width + spacing),
+                                        y: position(
+                                            of: placed.reservation.startTimeWorkshop
+                                        )
+                                    )
+                            }
                         }
                     }
-                }
-                .overlay(alignment: .top) {
-                    if reservations.isEmpty {
-                        Text("Aucun atelier réservé ce jour-là")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .padding(.top, hourHeight * 2)
+                    .overlay(alignment: .top) {
+                        if reservations.isEmpty {
+                            Text("Aucun atelier réservé ce jour-là")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                                .padding(.top, hourHeight * 2)
+                        }
                     }
-                }
+            }
+            .scrollIndicators(.hidden)
+            .onAppear { scrollToFirstWorkshop(proxy) }
+            .onChange(of: reservations.map(\.id)) {
+                withAnimation { scrollToFirstWorkshop(proxy) }
+            }
         }
-        .scrollIndicators(.hidden)
+    }
+
+    // Heure du premier atelier réservé du jour (nil si aucun)
+    private var firstWorkshopHour: Int? {
+        reservations
+            .map(\.startTimeWorkshop)
+            .min()
+            .map { Calendar.current.component(.hour, from: $0) }
+    }
+
+    // Scrolle une heure avant le premier atelier pour garder du contexte
+    private func scrollToFirstWorkshop(_ proxy: ScrollViewProxy) {
+        let hour = firstWorkshopHour.map { max($0 - 1, firstHour) } ?? firstHour
+        proxy.scrollTo(hour, anchor: .top)
     }
 
     private var hourGrid: some View {
@@ -80,6 +100,7 @@ struct DayScheduleView: View {
                     }
                 }
                 .frame(height: hourHeight, alignment: .top)
+                .id(hour)
             }
         }
     }
