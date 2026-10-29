@@ -11,18 +11,42 @@ struct ProfileView: View {
     @Environment(AuthService.self) private var authService
     @State private var isLoggingOut = false
 
+    // Initiales de l'utilisateur connecté : "Guillaume Richard" -> "GR"
+    private var initials: String {
+        let words = (authService.user?.name ?? "").split(separator: " ")
+        // Gardes les 2 premiers mots .prefix(2)
+        return words.prefix(2).compactMap(\.first).map(String.init).joined().uppercased()
+    }
+
     var body: some View {
         ZStack {
             Color.bg
             VStack(spacing: 20) {
                 HStack {
                     Text("Profil")
-                        .bold()
-                        .font(.title)
+                        .font(.system(size: 26))
+                        .fontWeight(.bold)
+                        .fontDesign(.serif)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                Image(systemName: "person.fill")
-                    .font(.largeTitle)
+                Circle()
+                    .fill(.colorProfile)
+                    .frame(width: 80, height: 80)
+                    .overlay {
+                        Text(initials)
+                            .font(.title)
+                            .bold()
+                            .foregroundStyle(.white)
+                    }
+
+                VStack(spacing: 4) {
+                    Text(authService.user?.name ?? "")
+                        .font(.title2)
+                        .bold()
+                    Text(authService.user?.email ?? "")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
 
                 Button {
                     isLoggingOut = true
