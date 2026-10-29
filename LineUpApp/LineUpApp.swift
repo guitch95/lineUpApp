@@ -14,7 +14,7 @@ import SwiftUI
             }
             .environment(authService)
             .task {
-                await authService.restoreSession()
+                await authService.restoreSession()  // if valid token in UserDefault user is connected nothing authentification
             }
         }
     }

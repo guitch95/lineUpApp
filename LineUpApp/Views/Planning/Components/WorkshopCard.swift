@@ -8,34 +8,53 @@
 import SwiftUI
 
 struct WorkshopCard: View {
-    let workshop: Workshop
+    let reservation: ReservationResponse
 
     private var timeRange: String {
-        "\(workshop.startTime.formatted(date: .omitted, time: .shortened)) - \(workshop.endTime.formatted(date: .omitted, time: .shortened))"
+        "\(hourLabel(reservation.startTimeWorkshop)) – \(hourLabel(reservation.endTimeWorkshop))"
+    }
+
+    private func hourLabel(_ date: Date) -> String {
+        let time = Calendar.current.dateComponents(
+            [.hour, .minute],
+            from: date
+        )
+        return String(format: "%dh%02d", time.hour ?? 0, time.minute ?? 0)
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(workshop.name)
-                .font(.headline)
+            Text(reservation.nameWorkshop)
+                .font(.subheadline.weight(.semibold))
+                .lineLimit(2)
 
             Text(timeRange)
-                .font(.subheadline)
+                .font(.caption)
+                .opacity(0.85)
+                .lineLimit(1)
 
-            Label(workshop.category.name, systemImage: "mappin.and.ellipse")
-                .font(.subheadline)
+            Text("📍 \(reservation.location)")
+                .font(.caption)
+                .opacity(0.7)
+                .lineLimit(1)
         }
         .foregroundStyle(.white)
-        .padding(12)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 12)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(Color.redBtn)
+                .fill(.redBtn)
+        )
+        .padding(.leading, 3)
+        .background(  // filet doré à gauche qui suit l'arrondi de la carte
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(Color.gold)
         )
     }
 }
 
 #Preview {
-    WorkshopCard(workshop: Workshop.samples[0])
-    .padding()
+    WorkshopCard(reservation: ReservationResponse.samples[0])
+        .frame(height: 104)
+        .padding()
 }
