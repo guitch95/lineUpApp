@@ -9,7 +9,9 @@ import SwiftUI
 
 struct PlanningView: View {
 
-    @State private var viewModel = PlanningViewModel()
+    @Environment(AuthService.self) private var authService
+
+    @State private var viewModelPlanning = PlanningViewModel()
 
     var body: some View {
         ZStack {
@@ -17,24 +19,31 @@ struct PlanningView: View {
                 .ignoresSafeArea()
 
             VStack(alignment: .leading, spacing: 20) {
-                HeaderView()
+                HeaderView(reservedCount: viewModelPlanning.reservedCount)
                 DaySelectorView(
-                    days: viewModel.days,
-                    selectedDay: $viewModel.selectedDay
+                    days: viewModelPlanning.days,
+                    reservedDays: viewModelPlanning.reservedDays,
+                    selectedDay: $viewModelPlanning.selectedDay
                 )
-                WorkshopEmptyListView(
-                    workshops: viewModel.workshopsForSelectedDay
+                if let errorMessage = viewModelPlanning.errorMessage {
+                    Text(errorMessage)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
+                DayScheduleView(
+                    reservations: viewModelPlanning.reservationsForSelectedDay
                 )
             }
             .padding()
             .task {
-                await viewModel.loadWorkshops()
+                await viewModelPlanning.loadPlanning(token: authService.token)
             }
         }
-        
+
     }
 }
 
 #Preview {
     PlanningView()
+        .environment(AuthService())
 }
