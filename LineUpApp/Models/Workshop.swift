@@ -42,17 +42,29 @@ struct Workshop: Identifiable, Decodable {
 }
 
 extension Workshop {
+    // Intervenants possibles selon la catégorie (les intervenants ne sont pas en BDD)
     var speaker: String {
-        switch name {
-        case "Maitrise de la voix":
-            return "Collectif La Voix Haute"
-        case "Corps & Récit":
-            return "Nathalie Voss"
-        case "Mise en lumière":
-            return "Lucie Granger"
+        let speakers: [String]
+        switch category.name {
+        case "Théâtre":
+            speakers = ["Claire Morel", "Antoine Leroy", "Hélène Garnier"]
+        case "Danse":
+            speakers = ["Nathalie Voss", "Inès Duarte", "Julien Marchal"]
+        case "Comédie":
+            speakers = ["Karim Belkacem", "Léa Fontaine", "Thomas Rivière"]
+        case "Voix":
+            speakers = ["Collectif La Voix Haute", "Sarah Benali", "Marc Delorme"]
+        case "Impro":
+            speakers = ["Compagnie Les Improbables", "Camille Roux", "Hugo Lambert"]
+        case "Technique":
+            speakers = ["Lucie Granger", "Paul Mercier", "Yann Lebrun"]
+        case "Mise en scène":
+            speakers = ["Élise Moreau", "Vincent Arnaud"]
         default:
-            return "Intervenant invité"
+            speakers = ["Intervenant invité"]
         }
+        // Le nombre de lettres du nom choisit l'intervenant : toujours le même pour un atelier
+        return speakers[name.count % speakers.count]
     }
     
     var location: String {
