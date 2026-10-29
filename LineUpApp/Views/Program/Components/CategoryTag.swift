@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CategoryTag: View {
     let category: String
-    
     var body: some View {
         Text(category)
             .textCase(.uppercase)

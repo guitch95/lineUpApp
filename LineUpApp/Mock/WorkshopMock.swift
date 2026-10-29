@@ -15,7 +15,7 @@ extension Workshop {
             calendar.date(
                 from: DateComponents(
                     year: 2026,
-                    month: 9,
+                    month: 11,
                     day: day,
                     hour: hour,
                     minute: minute
@@ -25,23 +25,27 @@ extension Workshop {
 
         let voixCategory = Category(
             id: UUID(),
-            name: "voix"
+            name: "Voix"
         )
         let improCategory = Category(
             id: UUID(),
-            name: "impro"
+            name: "Impro"
         )
         let miseEnSceneCategory = Category(
             id: UUID(),
-            name: "mise en scène"
+            name: "Mise en scène"
+        )
+        let techniqueCategory = Category(
+            id: UUID(),
+            name: "technique"
         )
 
         return [
             Workshop(
                 id: UUID(),
                 name: "Maitrise de la voix",
-                startTime: date(day: 5, hour: 19, minute: 0),
-                endTime: date(day: 5, hour: 20, minute: 30),
+                startTime: date(day: 6, hour: 19, minute: 0),
+                endTime: date(day: 6, hour: 20, minute: 30),
                 capacityMax: 15,
                 subscribersNb: 15,
                 description: "Explorez toute la puissance et la subtilité de votre organe vocal. À travers des exercices de respiration guidée, de placement de la voix et de résonance corporelle, vous apprendrez à projeter sans forcer et à captiver votre auditoire en toutes circonstances.",
@@ -60,8 +64,8 @@ extension Workshop {
             Workshop(
                 id: UUID(),
                 name: "Éloquence en scène",
-                startTime: date(day: 5, hour: 21, minute: 0),
-                endTime: date(day: 5, hour: 22, minute: 30),
+                startTime: date(day: 7, hour: 21, minute: 0),
+                endTime: date(day: 7, hour: 22, minute: 30),
                 capacityMax: 25,
                 subscribersNb: 14,
                 description: "Domptez le trac et transformez vos prises de parole en moments de pure conviction. Cet atelier interactif propose des mises en situation scéniques pour structurer votre discours, affirmer votre posture et maîtriser l'art de la persuasion.",
@@ -80,12 +84,12 @@ extension Workshop {
             Workshop(
                 id: UUID(),
                 name: "Mise en lumière",
-                startTime: date(day: 7, hour: 11, minute: 0),
-                endTime: date(day: 7, hour: 13, minute: 0),
+                startTime: date(day: 8, hour: 11, minute: 0),
+                endTime: date(day: 8, hour: 13, minute: 0),
                 capacityMax: 15,
                 subscribersNb: 11,
                 description: "Comprendre l'interaction intime entre l'acteur et l'éclairage théâtral. Expérimentez le jeu sous différentes atmosphères lumineuses et découvrez comment vous positionner par rapport aux projecteurs pour valoriser la mise en scène.",
-                category: miseEnSceneCategory
+                category: techniqueCategory
             )
         ]
     }()

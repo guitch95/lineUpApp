@@ -15,38 +15,46 @@ struct EventRow: View {
     }
     
     var body: some View {
-        HStack {
-            Image(workshop.picture)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 68, height: 68)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-            VStack(alignment: .leading, spacing: 8) {
+            NavigationLink {
+                WorkshopDetailView(viewModel: WorkshopDetailViewModel(workshop: workshop))
+            } label: {
                 HStack {
-                    Text(workshop.name)
-                        .font(.system(size: 14))
-                        .fontWeight(.semibold)
-                    Spacer()
-                    CategoryTag(category: workshop.category.name)
+                    Image(workshop.picture)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 68, height: 68)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Text(workshop.name)
+                                .font(.system(size: 14))
+                                .fontWeight(.semibold)
+                            
+                            Spacer()
+                            
+                            CategoryTag(category: workshop.category.name)
+                        }
+                        
+                        Text(workshop.speaker)
+                            .font(.system(size: 12))
+                            .fontWeight(.regular)
+                            .foregroundStyle(.fontGrayBtn)
+                        
+                        HStack(spacing: 0) {
+                            Text("\(formatTime(workshop.startTime)) – \(formatTime(workshop.endTime))")
+                            Text(" • \(workshop.location)")
+                            Spacer()
+                            AvailabilityBadge(workshop: workshop)
+                        }
+                        .font(.system(size: 11))
+                        .fontWeight(.regular)
+                        .foregroundStyle(.btnListeAttente)
+                    }
                 }
-                
-                Text(workshop.speaker)
-                    .font(.system(size: 12))
-                    .fontWeight(.regular)
-                    .foregroundStyle(.fontGrayBtn)
-
-                HStack(spacing: 0) {
-                    Text("\(formatTime(workshop.startTime)) – \(formatTime(workshop.endTime))")
-                    Text(" · \(workshop.location)")
-                    Spacer()
-                    AvailabilityBadge(workshop: workshop)
-                }
-                .font(.system(size: 11))
-                .fontWeight(.regular)
-                .foregroundStyle(.btnListeAttente)
             }
+            .buttonStyle(.plain) // Empêche le style de bouton gris/bleu moche sur toute la ligne
         }
-    }
 }
 
 #Preview {
