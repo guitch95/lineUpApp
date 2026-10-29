@@ -12,6 +12,7 @@ import Observation
 final class AuthService {
     private(set) var user: UserResponse?
     private(set) var isLoading = false
+    private(set) var isRestoringSession = true
     var errorMessage: String?
     var isLoggedIn: Bool { user != nil }
 
@@ -116,14 +117,14 @@ final class AuthService {
     }
 
     func restoreSession() async {
+        defer { isRestoringSession = false }
         await fetchMe()
     }
 
     func logout() {
-        Task {
-            try? await Task.sleep(for: .seconds(1))
             UserDefaults.standard.removeObject(forKey: tokenKey)
             user = nil
         }
-    }
+
+
 }

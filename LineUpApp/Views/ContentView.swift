@@ -16,6 +16,10 @@ struct ContentView: View {
                 FavoriteView()
             }
 
+            Tab("Chat", systemImage: "wand.and.sparkles") {
+                AIChatView()
+            }
+
             Tab("Profile", systemImage: "person.fill") {
                 ProfileView()
             }
