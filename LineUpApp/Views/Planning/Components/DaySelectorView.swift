@@ -9,12 +9,17 @@ import SwiftUI
 
 struct DaySelectorView: View {
     let days: [Date]
+    let reservedDays: Set<Date>
     @Binding var selectedDay: Date
 
     var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: 2) {
             ForEach(days, id: \.self) { day in
-                DayButton(day: day, selectedDay: $selectedDay)
+                DayButton(
+                    day: day,
+                    hasReservation: reservedDays.contains(day),
+                    selectedDay: $selectedDay
+                )
             }
         }
         .padding(6)
@@ -26,5 +31,11 @@ struct DaySelectorView: View {
 }
 
 #Preview {
-    DaySelectorView(days: [Date()], selectedDay: .constant(Date()))
+    let today = Calendar.current.startOfDay(for: Date())
+    let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+    DaySelectorView(
+        days: [today, tomorrow],
+        reservedDays: [tomorrow],
+        selectedDay: .constant(today)
+    )
 }
