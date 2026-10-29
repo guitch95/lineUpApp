@@ -83,7 +83,9 @@ extension Workshop {
         case "Voix":
             return "MaitriseDeLaVoix"
         case "Impro":
-            return "WorkshopPicture"
+            return "MiseEnLumiere"
+        case "Technique":
+            return "Technique"
         default:
             return "Placeholder"
         }
