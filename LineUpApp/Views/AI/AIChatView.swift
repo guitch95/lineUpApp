@@ -18,8 +18,9 @@ struct AIChatView: View {
         VStack {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Trouvez votre atelier")
-                    .font(.title)
-                    .bold()
+                    .font(.system(size: 26))
+                    .fontWeight(.bold)
+                    .fontDesign(.serif)
                 ScrollView {
                     VStack(alignment: .leading, spacing: 12) {
                         ForEach(service.suggestions) { suggestion in
@@ -27,16 +28,17 @@ struct AIChatView: View {
                                 Text("\(suggestion.workshop.name)")
                                     .font(.headline)
                                 Text(
-                                    "\(suggestion.workshop.category.name) · \(suggestion.workshop.startTime.formatted(.dateTime.weekday(.wide).hour().minute()))"
+                                    "\(suggestion.workshop.category.name) · \(suggestion.workshop.startTime.formatted(.dateTime.weekday(.wide).hour().minute().locale(Locale(identifier: "fr_FR"))))"
                                 )
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                                 Text(suggestion.reason)
                             }
+                            .foregroundStyle(.white)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
                             .background(
-                                .redBtn.opacity(0.08),
+                                .redBtn,
                                 in: .rect(cornerRadius: 12)
                             )
                         }
