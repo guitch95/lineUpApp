@@ -46,10 +46,6 @@ extension Workshop {
         switch name {
         case "Maitrise de la voix":
             return "Collectif La Voix Haute"
-        case "Lecture perchée":
-            return "Isabelle Moreau"
-        case "Éloquence en scène":
-            return "François Hardy"
         case "Corps & Récit":
             return "Nathalie Voss"
         case "Mise en lumière":
@@ -75,7 +71,6 @@ extension Workshop {
             return "Salle 01"
         }
     }
-    
     var picture: String {
         switch name {
         case "Maitrise de la voix":
