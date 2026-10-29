@@ -18,7 +18,7 @@ struct MainView: View {
                     Text("LineUp")
                         .font(.title)
                         .bold()
-                    Text("Festival · Naples · 6–8 Novembre 2026")
+                    Text("Festival · Lyon · 6–8 Novembre 2026")
                         .foregroundStyle(.loginText)
                 }
                 .padding(.bottom, 30)

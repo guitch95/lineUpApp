@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
-
     @Environment(AuthService.self) private var authService
+    @State private var isLoggingOut = false
 
     var body: some View {
         ZStack {
@@ -23,17 +23,28 @@ struct ProfileView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 Image(systemName: "person.fill")
                     .font(.largeTitle)
+
                 Button {
-                    authService.logout()
+                    isLoggingOut = true
+                    Task {
+                        try? await Task.sleep(for: .seconds(1))
+                        authService.logout()
+                    }
                 } label: {
-                    Text("Se déconnecter")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .bold()
-                        .frame(height: 55)
-                        .background(.white, in: .rect(cornerRadius: 12))
-                        .foregroundStyle(.redBtn)
+                    Group {
+                        if isLoggingOut {
+                            ProgressView()
+                        } else {
+                            Text("Se déconnecter")
+                                .bold()
+                                .foregroundStyle(.redBtn)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 55)
+                    .background(.white, in: .rect(cornerRadius: 12))
                 }
+                .disabled(isLoggingOut)
 
                 Spacer()
             }

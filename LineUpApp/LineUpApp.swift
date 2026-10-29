@@ -6,7 +6,9 @@ import SwiftUI
     var body: some Scene {
         WindowGroup {
             Group {
-                if authService.isLoggedIn {
+                if authService.isRestoringSession {
+                    ProgressView()
+                } else if authService.isLoggedIn{
                     ContentView()
                 } else {
                     MainView()
