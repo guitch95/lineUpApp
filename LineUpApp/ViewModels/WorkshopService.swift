@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 final class WorkshopService {
-    private(set) var workshops: [Workshop] = Workshop.samples
+    private(set) var workshops: [Workshop] = []
     var errorMessage: String?
     
     private let baseURL = URL(string: "http://127.0.0.1:8080")!
@@ -33,7 +33,7 @@ final class WorkshopService {
             
             let fetchedWorkshops = try decoder.decode([Workshop].self, from: data)
             
-            self.workshops = Workshop.samples + fetchedWorkshops
+            self.workshops = fetchedWorkshops
             
         } catch {
             errorMessage = "Impossible de contacter le serveur"

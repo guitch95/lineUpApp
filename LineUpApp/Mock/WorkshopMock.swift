@@ -94,12 +94,4 @@ extension Workshop {
         ]
     }()
 
-    static let sampleDays: [Date] = {
-        let calendar = Calendar.current
-        let days = Set(
-            samples.map { calendar.startOfDay(for: $0.startTime) }
-        )
-        return days.sorted()
-    }()
 }
-

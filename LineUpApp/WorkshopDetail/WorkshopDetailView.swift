@@ -148,5 +148,5 @@ struct WorkshopDetailView: View {
 } // Fin de struct WorkshopDetailView
 
 #Preview {
-    WorkshopDetailView(viewModel: WorkshopDetailViewModel(workshop: Workshop.samples[4]))
+    WorkshopDetailView(viewModel: WorkshopDetailViewModel(workshop: Workshop.samples[0]))
 }

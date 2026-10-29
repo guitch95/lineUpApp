@@ -11,8 +11,6 @@ import SwiftUI
 @Observable
 final class ProgramViewModel {
     private let workshopService = WorkshopService()
-    let availableDays: [Date] = Workshop.sampleDays
-    
     var workshops: [Workshop] {
         workshopService.workshops
     }
@@ -25,12 +23,23 @@ final class ProgramViewModel {
         Array(workshops.prefix(3))
     }
     
-    var selectedDate: Date = Workshop.sampleDays.first ?? Date()
+    // Jours distincts (sans l'heure) des ateliers récupérés en BDD, triés
+    var availableDays: [Date] {
+        let calendar = Calendar.current
+        return Set(workshops.map { calendar.startOfDay(for: $0.startTime) }).sorted()
+    }
+    
+    var selectedDate: Date = Date()
     
     var selectedCategory: String? = nil
     
     func fetchWorkshops() async {
         await workshopService.fetchWorkshops()
+        // Sélectionne le premier jour dispo si la date courante ne correspond à aucun atelier
+        if !availableDays.contains(where: { Calendar.current.isDate($0, inSameDayAs: selectedDate) }),
+           let firstDay = availableDays.first {
+            selectedDate = firstDay
+        }
     }
     
     var filteredWorkshops: [Workshop] {
