@@ -35,6 +35,10 @@ extension Workshop {
             id: UUID(),
             name: "Mise en scène"
         )
+        let techniqueCategory = Category(
+            id: UUID(),
+            name: "technique"
+        )
 
         return [
             Workshop(
@@ -85,7 +89,7 @@ extension Workshop {
                 capacityMax: 15,
                 subscribersNb: 11,
                 description: "Comprendre l'interaction intime entre l'acteur et l'éclairage théâtral. Expérimentez le jeu sous différentes atmosphères lumineuses et découvrez comment vous positionner par rapport aux projecteurs pour valoriser la mise en scène.",
-                category: miseEnSceneCategory
+                category: techniqueCategory
             )
         ]
     }()

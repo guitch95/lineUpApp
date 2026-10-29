@@ -18,12 +18,14 @@ struct ProgramView: View {
                     ScheduleHeaderView()
                     TabView(selection: $selectedFeaturedIndex) {
                         ForEach(Array(vm.featuredWorkshops.enumerated()), id: \.offset) { index, workshop in
-                            FeaturedWorkshopCard(
-                                workshop: workshop,
-                                numberOfPages: vm.featuredWorkshops.count,
-                                currentIndex: selectedFeaturedIndex
-                            )
-                            .tag(index)
+                            NavigationLink(destination: WorkshopDetailView(viewModel: WorkshopDetailViewModel(workshop: workshop))) {
+                                FeaturedWorkshopCard(
+                                    workshop: workshop,
+                                    numberOfPages: vm.featuredWorkshops.count,
+                                    currentIndex: selectedFeaturedIndex
+                                )
+                                .tag(index)
+                            }
                         }
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never)) 
