@@ -19,7 +19,6 @@ final class WorkshopDetailViewModel {
     private let reservationService: ReservationService
 
     var subscribersNb: Int
-    var isFavorite: Bool = false
     var isLoading = false
 
     // Id de la réservation de l'utilisateur pour cet atelier (nil si pas réservé)

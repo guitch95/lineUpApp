@@ -11,6 +11,7 @@ struct WorkshopDetailView: View {
     @State var viewModel: WorkshopDetailViewModel
     @Environment(\.dismiss) var dismiss
     @Environment(AuthService.self) private var authService
+    @Environment(FavoriteService.self) private var favoriteService
 
     var body: some View {
         ScrollView {
@@ -44,10 +45,10 @@ struct WorkshopDetailView: View {
                         
                         // Bouton Favori
                         Button {
-                            viewModel.isFavorite.toggle()
+                            favoriteService.toggle(viewModel.workshop)
                         } label: {
-                            Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
-                                .foregroundColor(viewModel.isFavorite ? .red : .primary)
+                            Image(systemName: favoriteService.isFavorite(viewModel.workshop) ? "heart.fill" : "heart")
+                                .foregroundColor(favoriteService.isFavorite(viewModel.workshop) ? .red : .primary)
                                 .padding(12)
                                 .background(.white)
                                 .clipShape(Circle())
@@ -154,4 +155,5 @@ struct WorkshopDetailView: View {
 #Preview {
     WorkshopDetailView(viewModel: WorkshopDetailViewModel(workshop: Workshop.samples[0]))
         .environment(AuthService())
+        .environment(FavoriteService())
 }

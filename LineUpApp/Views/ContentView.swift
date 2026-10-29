@@ -13,7 +13,7 @@ struct ContentView: View {
             }
 
             Tab("Favoris", systemImage: "heart.fill") {
-                FavorisView()
+                FavoriteView()
             }
 
             Tab("Profile", systemImage: "person.fill") {
