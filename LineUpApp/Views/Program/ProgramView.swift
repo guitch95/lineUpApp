@@ -31,22 +31,29 @@ struct ProgramView: View {
                     .tabViewStyle(.page(indexDisplayMode: .never)) 
                     .frame(height: 180)
                     
-                    HStack {
-                        DatePillPicker(availableDays: vm.availableDays, selectedDate: $vm.selectedDate)
-                        Spacer()
-                        FilterButton(selectedCategory: $vm.selectedCategory)
-                    }
-                    if vm.filteredWorkshops.isEmpty {
-                        Spacer()
-                        Text("Aucun atelier ne correspond à la date et à la catégorie sélectionnées.")
-                            .foregroundStyle(.loginText)
+                    // Chargement uniquement au premier affichage (pas au retour d'un détail)
+                    if vm.isFirstLoading {
+                        ProgressView()
                             .frame(maxWidth: .infinity)
                             .frame(minHeight: 400)
-                        Spacer()
                     } else {
-                        ForEach(vm.filteredWorkshops) { workshop in
-                            EventRow(workshop: workshop)
-                            Divider()
+                        HStack {
+                            DatePillPicker(availableDays: vm.availableDays, selectedDate: $vm.selectedDate)
+                            Spacer()
+                            FilterButton(selectedCategory: $vm.selectedCategory)
+                        }
+                        if vm.filteredWorkshops.isEmpty {
+                            Spacer()
+                            Text("Aucun atelier ne correspond à la date et à la catégorie sélectionnées.")
+                                .foregroundStyle(.loginText)
+                                .frame(maxWidth: .infinity)
+                                .frame(minHeight: 400)
+                            Spacer()
+                        } else {
+                            ForEach(vm.filteredWorkshops) { workshop in
+                                EventRow(workshop: workshop)
+                                Divider()
+                            }
                         }
                     }
                 }

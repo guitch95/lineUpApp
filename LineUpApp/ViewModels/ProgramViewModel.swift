@@ -15,6 +15,11 @@ final class ProgramViewModel {
         workshopService.workshops
     }
     
+    // Premier chargement : on n'a encore aucun atelier à afficher
+    var isFirstLoading: Bool {
+        workshopService.isLoading && workshops.isEmpty
+    }
+    
     var errorMessage: String? {
         workshopService.errorMessage
     }

@@ -10,12 +10,15 @@ import Foundation
 @Observable
 final class WorkshopService {
     private(set) var workshops: [Workshop] = []
+    private(set) var isLoading = false
     var errorMessage: String?
     
     private let baseURL = URL(string: "http://127.0.0.1:8080")!
     
     func fetchWorkshops() async {
         errorMessage = nil
+        isLoading = true
+        defer { isLoading = false }
         let url = baseURL.appending(path: "workshops")
         
         do {
