@@ -71,18 +71,19 @@ extension Workshop {
             return "Salle 01"
         }
     }
+    // Image choisie selon la catégorie (les images ne sont pas en BDD)
     var picture: String {
-        switch name {
-        case "Maitrise de la voix":
-            return "MaitriseDeLaVoix"
-        case "Lecture perchée":
+        switch category.name {
+        case "Théâtre":
             return "LecturePerchee"
-        case "Éloquence en scène":
-            return "EloquenceEnScene"
-        case "Corps & Récit":
+        case "Danse":
             return "CorpsRecit"
-        case "Mise en lumière":
-            return "MiseEnLumiere"
+        case "Comédie":
+            return "EloquenceEnScene"
+        case "Voix":
+            return "MaitriseDeLaVoix"
+        case "Impro":
+            return "WorkshopPicture"
         default:
             return "Placeholder"
         }
