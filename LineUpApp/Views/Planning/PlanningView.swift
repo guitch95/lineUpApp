@@ -31,7 +31,7 @@ struct PlanningView: View {
                         .foregroundStyle(.red)
                 }
                 DayScheduleView(
-                    reservations: viewModelPlanning.reservationsForSelectedDay
+                    workshops: viewModelPlanning.workshopsForSelectedDay
                 )
             }
             .padding()

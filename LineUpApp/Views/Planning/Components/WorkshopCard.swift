@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct WorkshopCard: View {
-    let reservation: ReservationResponse
+    let workshop: Workshop
 
     private var timeRange: String {
-        "\(hourLabel(reservation.startTimeWorkshop)) – \(hourLabel(reservation.endTimeWorkshop))"
+        "\(hourLabel(workshop.startTime)) – \(hourLabel(workshop.endTime))"
     }
 
     private func hourLabel(_ date: Date) -> String {
@@ -24,7 +24,7 @@ struct WorkshopCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(reservation.nameWorkshop)
+            Text(workshop.name)
                 .font(.subheadline.weight(.semibold))
                 .lineLimit(2)
 
@@ -33,7 +33,7 @@ struct WorkshopCard: View {
                 .opacity(0.85)
                 .lineLimit(1)
 
-            Text("📍 \(reservation.location)")
+            Text("📍 \(workshop.location)")
                 .font(.caption)
                 .opacity(0.7)
                 .lineLimit(1)
@@ -54,7 +54,7 @@ struct WorkshopCard: View {
 }
 
 #Preview {
-    WorkshopCard(reservation: ReservationResponse.samples[0])
+    WorkshopCard(workshop: Workshop.samples[0])
         .frame(height: 104)
         .padding()
 }

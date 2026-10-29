@@ -67,18 +67,23 @@ extension Workshop {
         return speakers[name.count % speakers.count]
     }
     
+    // Une salle par catégorie (les lieux ne sont pas en BDD)
     var location: String {
-        switch name {
-        case "Maitrise de la voix":
-            return "Cours des Célestins"
-        case "Lecture perchée":
-            return "Studio Artaud"
-        case "Éloquence en scène":
+        switch category.name {
+        case "Théâtre":
+            return "Grande salle"
+        case "Danse":
+            return "Studio de danse"
+        case "Comédie":
             return "Salle Comédie"
-        case "Corps & Récit":
-            return "Cours des Arts"
-        case "Mise en lumière":
+        case "Voix":
+            return "Studio Artaud"
+        case "Impro":
+            return "Café-théâtre"
+        case "Technique":
             return "Atelier technique"
+        case "Mise en scène":
+            return "Salle de répétition"
         default:
             return "Salle 01"
         }

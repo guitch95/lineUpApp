@@ -70,10 +70,6 @@ final class WorkshopDetailViewModel {
         return "\(start) - \(end)"
     }
     
-    var locationText: String {
-        return "Atelier principal" // Ou une propriété de ton model Workshop si elle existe
-    }
-    
     // --- FONCTIONS ---
     
     // Récupère les réservations de l'utilisateur pour savoir s'il a déjà réservé cet atelier

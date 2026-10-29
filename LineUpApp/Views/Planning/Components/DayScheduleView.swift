@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DayScheduleView: View {
-    let reservations: [ReservationResponse]
+    let workshops: [Workshop]
 
     private let firstHour = 8
     private let lastHour = 24  // minuit
@@ -17,10 +17,10 @@ struct DayScheduleView: View {
     private let spacing: CGFloat = 4
 
     private struct PlacedWorkshop: Identifiable {
-        let reservation: ReservationResponse
+        let workshop: Workshop
         let column: Int
         let columnCount: Int
-        var id: UUID { reservation.id }
+        var id: UUID { workshop.id }
     }
 
     var body: some View {
@@ -37,23 +37,23 @@ struct DayScheduleView: View {
                                 let width =
                                     (availableWidth - spacing * (count - 1)) / count
 
-                                WorkshopCard(reservation: placed.reservation)
+                                WorkshopCard(workshop: placed.workshop)
                                     .frame(
                                         width: width,
-                                        height: height(of: placed.reservation)
+                                        height: height(of: placed.workshop)
                                     )
                                     .offset(
                                         x: leading + CGFloat(placed.column)
                                             * (width + spacing),
                                         y: position(
-                                            of: placed.reservation.startTimeWorkshop
+                                            of: placed.workshop.startTime
                                         )
                                     )
                             }
                         }
                     }
                     .overlay(alignment: .top) {
-                        if reservations.isEmpty {
+                        if workshops.isEmpty {
                             Text("Aucun atelier réservé ce jour-là")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
@@ -63,7 +63,7 @@ struct DayScheduleView: View {
             }
             .scrollIndicators(.hidden)
             .onAppear { scrollToFirstWorkshop(proxy) }
-            .onChange(of: reservations.map(\.id)) {
+            .onChange(of: workshops.map(\.id)) {
                 withAnimation { scrollToFirstWorkshop(proxy) }
             }
         }
@@ -71,8 +71,8 @@ struct DayScheduleView: View {
 
     // Heure du premier atelier réservé du jour (nil si aucun)
     private var firstWorkshopHour: Int? {
-        reservations
-            .map(\.startTimeWorkshop)
+        workshops
+            .map(\.startTime)
             .min()
             .map { Calendar.current.component(.hour, from: $0) }
     }
@@ -113,13 +113,13 @@ struct DayScheduleView: View {
 
     private var placedWorkshops: [PlacedWorkshop] {
         var placed: [PlacedWorkshop] = []
-        var group: [(reservation: ReservationResponse, column: Int)] = []
+        var group: [(workshop: Workshop, column: Int)] = []
         var columnEnds: [Date] = []
 
         func closeGroup() {
             placed += group.map {
                 PlacedWorkshop(
-                    reservation: $0.reservation,
+                    workshop: $0.workshop,
                     column: $0.column,
                     columnCount: columnEnds.count
                 )
@@ -128,22 +128,22 @@ struct DayScheduleView: View {
             columnEnds = []
         }
 
-        for reservation in reservations.sorted(by: {
-            $0.startTimeWorkshop < $1.startTimeWorkshop
+        for workshop in workshops.sorted(by: {
+            $0.startTime < $1.startTime
         }) {
             if let groupEnd = columnEnds.max(),
-                reservation.startTimeWorkshop >= groupEnd
+                workshop.startTime >= groupEnd
             {
                 closeGroup()
             }
             if let freeColumn = columnEnds.firstIndex(where: {
-                $0 <= reservation.startTimeWorkshop
+                $0 <= workshop.startTime
             }) {
-                columnEnds[freeColumn] = reservation.endTimeWorkshop
-                group.append((reservation, freeColumn))
+                columnEnds[freeColumn] = workshop.endTime
+                group.append((workshop, freeColumn))
             } else {
-                columnEnds.append(reservation.endTimeWorkshop)
-                group.append((reservation, columnEnds.count - 1))
+                columnEnds.append(workshop.endTime)
+                group.append((workshop, columnEnds.count - 1))
             }
         }
         closeGroup()
@@ -162,17 +162,17 @@ struct DayScheduleView: View {
         return hours * hourHeight
     }
 
-    private func height(of reservation: ReservationResponse) -> CGFloat {
+    private func height(of workshop: Workshop) -> CGFloat {
         let hours =
-            reservation.endTimeWorkshop.timeIntervalSince(
-                reservation.startTimeWorkshop
+            workshop.endTime.timeIntervalSince(
+                workshop.startTime
             ) / 3600
         return hours * hourHeight - 8
     }
 }
 
 #Preview {
-    DayScheduleView(reservations: ReservationResponse.samples)
+    DayScheduleView(workshops: Workshop.samples)
         .padding()
         .background(Color.bg)
 }

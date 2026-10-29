@@ -103,7 +103,7 @@ struct WorkshopDetailView: View {
                         Text("LIEU")
                             .font(.caption2)
                             .foregroundColor(.secondary)
-                        Text(viewModel.locationText)
+                        Text(viewModel.workshop.location)
                             .font(.subheadline)
                             .fontWeight(.bold)
                             .foregroundColor(.primary)
