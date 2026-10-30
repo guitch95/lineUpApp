@@ -47,7 +47,7 @@ extension Workshop {
                 startTime: date(day: 6, hour: 19, minute: 0),
                 endTime: date(day: 6, hour: 20, minute: 30),
                 capacityMax: 15,
-                subscribersNb: 15,
+                subscribersNb: 14,
                 description: "Explorez toute la puissance et la subtilité de votre organe vocal. À travers des exercices de respiration guidée, de placement de la voix et de résonance corporelle, vous apprendrez à projeter sans forcer et à captiver votre auditoire en toutes circonstances.",
                 category: voixCategory
             ),

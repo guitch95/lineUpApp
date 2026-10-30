@@ -107,21 +107,23 @@ struct WorkshopDetailView: View {
                     BookingActionButton(viewModel: viewModel)
 
                 }
-
                 .padding()
                 Spacer()
-
             }
-
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         favoriteService.toggle(viewModel.workshop)
                     } label: {
                         Image(
-                            systemName: favoriteService.isFavorite(viewModel.workshop) ? "heart.fill" : "heart"
+                            systemName: favoriteService.isFavorite(
+                                viewModel.workshop
+                            ) ? "heart.fill" : "heart"
                         )
-                        .foregroundStyle(favoriteService.isFavorite(viewModel.workshop) ? .redBtn : .primary)
+                        .foregroundStyle(
+                            favoriteService.isFavorite(viewModel.workshop)
+                                ? .redBtn : .primary
+                        )
                     }
                 }
             }
