@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @Environment(AuthService.self) private var authService
     @State private var isLoggingOut = false
+    @State private var viewModelProfile = ProfileViewModel()
 
     // Initiales de l'utilisateur connecté : "Guillaume Richard" -> "GR"
     private var initials: String {
@@ -48,6 +49,11 @@ struct ProfileView: View {
                         .foregroundStyle(.secondary)
                 }
 
+                StatCard(
+                    title: "Ateliers réservés",
+                    value: viewModelProfile.reservedCount
+                )
+
                 Button {
                     isLoggingOut = true
                     Task {
@@ -74,6 +80,9 @@ struct ProfileView: View {
             }
             .padding(.top, 40)
             .padding(18)
+            .task {
+                await viewModelProfile.loadReservations(token: authService.token)
+            }
         }
         .ignoresSafeArea()
     }
