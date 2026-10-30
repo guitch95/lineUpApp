@@ -130,7 +130,9 @@ struct WorkshopDetailView: View {
         }
         .background(.bg)
         .ignoresSafeArea()
-
+        .task {
+            await viewModel.loadReservation(token: authService.token)
+        }
     }
 }
 
