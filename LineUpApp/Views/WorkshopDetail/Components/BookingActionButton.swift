@@ -9,15 +9,12 @@ import SwiftUI
 struct BookingActionButton: View {
     @Bindable var viewModel: WorkshopDetailViewModel
     @Environment(AuthService.self) private var authService
+    @State private var showCancelConfirmation = false
 
     var body: some View {
         Button {
             Task {
-                if viewModel.bookingState == .available {
-                    await viewModel.reserve(token: authService.token)
-                } else if viewModel.bookingState == .reserved {
-                    await viewModel.cancelReservation(token: authService.token)
-                }
+                await viewModel.reserve(token: authService.token)
             }
         } label: {
             Text(buttonTitle)
@@ -28,8 +25,37 @@ struct BookingActionButton: View {
                 .background(buttonBackgroundColor)
                 .cornerRadius(12)
         }
-        .disabled(viewModel.bookingState == .full || viewModel.isLoading)
+        .disabled(viewModel.bookingState != .available || viewModel.isLoading)
         .padding(.top, 8)
+
+        // Bouton d'annulation séparé, visible uniquement si l'atelier est réservé
+        if viewModel.bookingState == .reserved {
+            Button(role: .destructive) {
+                showCancelConfirmation = true
+            } label: {
+                Text("Annuler ma réservation")
+                    .font(Font.headline)
+                    .foregroundColor(Color("redBtnColor"))
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color("redBtnColor"), lineWidth: 1.5)
+                    )
+            }
+            .disabled(viewModel.isLoading)
+            .confirmationDialog(
+                "Annuler votre réservation pour cet atelier ?",
+                isPresented: $showCancelConfirmation,
+                titleVisibility: .visible
+            ) {
+                Button("Annuler ma réservation", role: .destructive) {
+                    Task {
+                        await viewModel.cancelReservation(token: authService.token)
+                    }
+                }
+            }
+        }
 
         if let errorMessage = viewModel.errorMessage {
             Text(errorMessage)
