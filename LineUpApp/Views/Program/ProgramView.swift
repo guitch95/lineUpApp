@@ -40,7 +40,7 @@ struct ProgramView: View {
                         HStack {
                             DatePillPicker(availableDays: vm.availableDays, selectedDate: $vm.selectedDate)
                             Spacer()
-                            FilterButton(selectedCategory: $vm.selectedCategory)
+                            FilterButton(categories: vm.categories, selectedCategory: $vm.selectedCategory)
                         }
                         if vm.filteredWorkshops.isEmpty {
                             Spacer()

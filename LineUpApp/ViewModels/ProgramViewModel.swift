@@ -34,6 +34,11 @@ final class ProgramViewModel {
         return Set(workshops.map { calendar.startOfDay(for: $0.startTime) }).sorted()
     }
     
+    // Catégories distinctes des ateliers récupérés en BDD, triées par ordre alphabétique
+    var categories: [String] {
+        Set(workshops.map(\.category.name)).sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+    }
+
     var selectedDate: Date = Date()
     
     var selectedCategory: String? = nil
