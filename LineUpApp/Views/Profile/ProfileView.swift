@@ -31,7 +31,7 @@ struct ProfileView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 Circle()
-                    .fill(.colorProfile)
+                    .fill(.black)
                     .frame(width: 80, height: 80)
                     .overlay {
                         Text(initials)
@@ -50,7 +50,7 @@ struct ProfileView: View {
                 }
 
                 StatCard(
-                    title: "Ateliers réservés",
+                    title: viewModelProfile.reservedCount > 1 ? "Ateliers réservés" : "Atelier Réservé",
                     value: viewModelProfile.reservedCount
                 )
 
